@@ -105,8 +105,6 @@
 (setq auto-mode-alist (cons '("\\.tex$" . yatex-mode) auto-mode-alist))
 (add-hook 'yatex-mode-hook' (lambda () (setq auto-fill-function nil)))
 
-;; Set tab width
-(setq tab-width 4)
 
 ;; Smooth down key
 (progn
