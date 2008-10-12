@@ -1,0 +1,55 @@
+;; -*- mode: emacs-lisp -*-
+;; History entries used for anything adaptive display.
+(setq anything-c-adaptive-history (quote (("Info Pages" ("SC: (sc)" ("sc" . 1))) ("dabbrev (all buffer)" ("Hatena" ("" . 1))) ("dabbrev (partial match)" ("bbuffer" ("" . 1)) ("_add_post" ("" . 1)) ("addUsers" ("U" . 1)) ("IMAGE_SIZE" ("" . 1)) ("CONTAINER_CLASS" ("" . 1)) ("target-keyword" ("targe" . 1)) ("onClickFirst" ("ck" . 1)) ("sampleFuncSuperNishioInit" ("" . 3)) ("sampleFuncSuperNishio" ("" . 1)) ("sampleFuncNishio" ("" . 1)) ("anything-c-source-google-suggest" ("google" . 1) ("" . 1)) ("-e:3: unmatched ): /[a-zA-Z0-9?!_-]*anything-c-source-locate))" ("" . 1))) (nil ("*GNU Emacs*" ("emac" . 1)) ("report.tex" ("tex" . 1)) ("Keywordblog.pm" ("Key" . 1)) (nil ("foll" . 1) ("follow" . 1)) ("egrep" ("grep" . 1))) ("Calculation Result" ("hotglo" ("hotglo" . 1)) ("smly" ("smly" . 1))) (file ("~/dotfiles/.emacs.d/conf/init-anything.el" ("" . 1)) ("~/Documents/report/computer_lang/hagya/report/report.tex" ("" . 1)) ("~/vmware/keyword/static/js/Hatena/Keyword/Follow.js" ("Fol" . 1) ("follow.js" . 1)) ("~/vmware/haiku/static/js/Hatena/Haiku.js" ("Haiku" . 1)) ("~/Desktop/follow/index.html" ("index" . 1)) ("/Users/suzukitomohiro/dotfiles/.emacs.el" (".emacs.el" . 4)) ("/Users/suzukitomohiro/.cpan/build/DBIx-MoCo-0.18/lib/DBIx/MoCo.pm" ("MoCo.pm" . 2)) ("/Users/suzukitomohiro/hatena/modules/Ridge/lib/Ridge.pm" ("Ridge.pm" . 1))) ("Manual Pages" ("Test::More" ("Test::Mo" . 1) ("Test::More" . 4) ("test::more" . 4) ("test::mo" . 1)) ("Devel::Peek" ("Devel::Peek" . 1) ("devel::peek" . 1) ("devel::" . 1) ("Devel::" . 1)) (nil ("grep" . 1)) ("prove" ("prove" . 1))) ("Google Suggest" ("hatena yousei" ("hatena" . 1)) ("hatena diary" ("Hatena" . 1)) ("suztomo" ("suztomo" . 1)) ("google" ("google" . 1))) (buffer ("*scratch*" ("scra" . 1) ("" . 1)) ("BarracksEasy.cpp" ("cpp" . 1)) ("Towers.cpp" (".cpp" . 1)) ("TwoLotteryGames.cpp" ("cpp" . 1) ("two" . 1)) ("Getter.java" ("gett" . 1)) ("BBuffer.java" ("java" . 1)) ("
+Google Suggest
+Search for 'ema' on Google
+email                             
+emachines                         
+email search                      
+email extractor lite 1.4          
+email address                     
+emacs                             
+emap                              
+email marketing                   
+emaar                             
+emailcash                         
+.emacs.el" ("ema" . 1)) ("
+Google Suggest
+Search for 'keywo' on Google
+keyword tool                     
+keyword research                 
+keyword discovery                
+keyword elite                    
+keyword density                  
+keyword suggestion tool          
+keyword spy                      
+keyword tracker                  
+keyword analysis                 
+keyword research tool            
+Keywordblog.pm" ("keywo" . 1)) ("Favorite.pm" ("Fa" . 1) ("favori" . 1) ("" . 1)) ("Favorite.pm<2>" ("Favo" . 1) ("favori" . 1) ("Favori" . 1) ("" . 1)) ("Favorite.js" ("js" . 2) ("" . 2) ("favori" . 1)) ("hotblog.html" ("hotblo" . 1) ("ho" . 1) ("hotb" . 1)) ("Favorite.pm<3>" ("Favori" . 1) ("favo" . 1)) ("Keyword.pm<2>" ("" . 1)) ("Hotblog.pm" ("" . 2)) ("Config.pm" ("" . 1)) ("index.html" ("inde" . 2)) ("Follow.js" ("" . 1)) ("
+Google Suggest
+Search for 'Fol' on Google
+folic acid                   
+folliculitis                 
+folder lock                  
+folding@home                 
+follow follow                
+folklorama                   
+folate                       
+follett                      
+folklore                     
+folding bike                 
+Follow.js" ("Fol" . 1)) ("
+Google Suggest
+Search for 'index.' on Google
+index.hr                     
+index.hu                     
+index.dat                    
+index.dat reader             
+index.dat viewer             
+index.dat analyzer           
+index.dat suite              
+index.dat files              
+index.dat file               
+index.html redirect          
+index.html" ("index." . 1)) ("Haiku.js" ("Haiku" . 1)) ("*WoMan 3pm Devel::Peek*" ("Devel::" . 1)) ("*WoMan 3pm Test::More*" ("Test::More" . 1) ("test::more" . 1)) ("init-anything-1.el" ("init-a" . 1)) ("init-anything.el" ("init-an" . 1) ("init" . 1) ("init-any" . 1)) ("ref.pl" ("ref.p" . 1))))))
