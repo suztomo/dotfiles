@@ -76,6 +76,24 @@
              (flymake-mode t)))
 
 
+;; C
+;; (defun flymake-c-init ()
+;;   (let* ((temp-file   (flymake-init-create-temp-buffer-copy
+;;                        'flymake-create-temp-inplace))
+;;          (local-file  (file-relative-name
+;;                        temp-file
+;;                        (file-name-directory buffer-file-name))))
+;;     (list "gcc" (list "-Wall" "-Wextra" "-lpcap" local-file))))
+
+
+;; (push '("\\.c$" flymake-c-init) flymake-allowed-file-name-masks)
+
+(add-hook 'c-mode-hook
+          '(lambda ()
+             (flymake-mode t)))
+
+
+
 
 ;; エラーをミニバッファに表示
 ;; http://d.hatena.ne.jp/xcezx/20080314/1205475020

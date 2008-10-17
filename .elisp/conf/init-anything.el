@@ -4,8 +4,8 @@
 (define-key anything-map "\C-n" 'anything-next-line)
 (define-key anything-map "\C-p" 'anything-previous-line)
 
-;(setq anything-c-adaptive-history-file
-;      (expand-file-name "~/dotfiles/.elisp/anything/anything-c-adaptive-history"))
+(setq anything-c-adaptive-history-file
+      (expand-file-name "~/dotfiles/.elisp/anything/anything-c-adaptive-history"))
 
 (require 'anything-dabbrev-expand)
 (global-set-key "\C-u" 'anything-dabbrev-expand)
@@ -21,17 +21,18 @@
 ;        anything-c-source-locate
 ;        ))
 
+;;(append-list anything-sources
+;;             'anything-c-source-calculation-result)
 
 
 
-
-;; (setq anything-sources
-;;       (list anything-c-source-buffers
-;;             anything-c-source-bookmarks
-;; ;            anything-c-source-file-name-history
-;;             anything-c-source-man-pages
-;; ;            anything-c-source-info-pages
-;;             anything-c-source-calculation-result
-;; ;            anything-c-source-plocate
-;; ;            anything-c-source-locate
-;;             ))
+(setq anything-sources
+      (list anything-c-source-buffers
+            anything-c-source-bookmarks
+            anything-c-source-file-name-history
+            anything-c-source-man-pages
+;            anything-c-source-info-pages
+            anything-c-source-calculation-result
+;            anything-c-source-plocate
+;            anything-c-source-locate
+            ))

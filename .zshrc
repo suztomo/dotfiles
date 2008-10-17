@@ -308,4 +308,4 @@ function __rm_single_file(){
        fi
 }
 
-alias rm='rmf'
+#alias rm='rmf'
