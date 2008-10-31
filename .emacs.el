@@ -18,6 +18,11 @@
 ;(column-number-mode nil)
 
 
+;; Riece
+(setq riece-server-alist 
+      '(("is2007" :host   "irc.freenode.net" :coding utf-8 :nickname "suzemacs")))
+
+
 ;; Tabはspace x 4
 (setq-default tab-width 4 indent-tabs-mode nil)
 
@@ -83,20 +88,6 @@
 
 ;; Visible marked area
 (transient-mark-mode t)
-
-
-;; GNU Global Settings
-(load "gtags.el")
-;; (autoload 'gtags-mode "gtags" "" t)
-;; (setq gtags-mode-hook
-;;       '(lambda ()
-;;          (local-set-key "\M-t" 'gtags-find-tag)
-;;          (local-set-key "\M-r" 'gtags-find-rtag)
-;;          (local-set-key "\M-s" 'gtags-find-symbol)
-;;          (local-set-key "\C-t" 'gtags-pop-stack)
-;;          ))
-
-
 
 
 
@@ -197,7 +188,7 @@
 (load "init-gauche")
 (load "init-python")
 (load "init-gdb")
-
+(load "init-gtags")
 
 
 (split-window-horizontally)

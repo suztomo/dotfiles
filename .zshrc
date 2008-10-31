@@ -8,6 +8,10 @@
 export LANG=ja_JP.UTF-8
 
 
+## Backspace key
+#
+bindkey "^?" backward-delete-char
+
 ## Default shell configuration
 #
 # set prompt
@@ -257,7 +261,7 @@ alias usvn='svn up ~/dotfiles'
 
 export EDITOR=vim
 export PATH=$PATH:$HOME/local/bin:/usr/local/git/bin
-export PATH=$PATH:/sbin
+export PATH=$PATH:/sbin:/opt/local/sbin/
 export MANPATH=$MANPATH:/opt/local/man
 
 expand-to-home-or-insert () {
