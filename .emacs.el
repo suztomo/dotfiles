@@ -170,6 +170,10 @@
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
+;; auto-complete.el
+;; http://d.hatena.ne.jp/rubikitch/20081109/autocomplete
+(require 'auto-complete)
+(global-auto-complete-mode t)
 
 
 
@@ -192,6 +196,3 @@
 
 
 (split-window-horizontally)
-
-
-

@@ -261,7 +261,7 @@ alias usvn='svn up ~/dotfiles'
 
 export EDITOR=vim
 export PATH=$PATH:$HOME/local/bin:/usr/local/git/bin
-export PATH=$PATH:/sbin:/opt/local/sbin/
+export PATH=$PATH:/sbin:/opt/local/sbin/:/usr/local/bin
 export MANPATH=$MANPATH:/opt/local/man
 
 expand-to-home-or-insert () {

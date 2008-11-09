@@ -39,4 +39,4 @@
 (define-key global-map "\M-g" 'gdb-before-refresh)
 
 ;; Override anything-isearch-again
-(define-key global-map "\M-s" 'smart-compile)
+(define-key global-map "\M-c" 'smart-compile)
