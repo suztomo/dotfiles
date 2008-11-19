@@ -4,8 +4,9 @@
 ## Environment variable configuration
 #
 # LANG
-#
+# http://curiousabt.blog27.fc2.com/blog-entry-65.html
 export LANG=ja_JP.UTF-8
+export LESSCHARSET=utf-8
 
 
 ## Backspace key
@@ -256,8 +257,7 @@ alias 'mc'='make clean'
 alias s='screen -S main'
 alias pon='predict-on'
 alias poff='predict-off'
-alias csvn='svn ci ~/dotfiles'
-alias usvn='svn up ~/dotfiles'
+alias p='ping -c 4'
 
 export EDITOR=vim
 export PATH=$PATH:$HOME/local/bin:/usr/local/git/bin

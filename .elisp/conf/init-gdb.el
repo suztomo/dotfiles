@@ -21,12 +21,13 @@
       (if last-win
           (gdb-before-refresh-find-gdb-window last-win gdb-buf)
           nil))))
+(eq 1 3)
 
 (defun gdb-before-refresh ()
   (interactive)
   (let ((gdb-buffer (gdb-before-refresh-find-buffer (buffer-list))))
     (progn
-      (if (and (neq (current-buffer) gdb-buffer) (> (length (window-list)) 1))
+      (if (and (not (eq (current-buffer) gdb-buffer)) (> (length (window-list)) 1))
           (command-execute 'next-multiframe-window)
           nil)
 ;          (let ((gdb-win (gdb-before-refresh-find-gdb-window (window-list) gdb-buffer)))

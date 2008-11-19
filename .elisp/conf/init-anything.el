@@ -9,11 +9,11 @@
 (setq anything-c-adaptive-history-file
       (expand-file-name "~/dotfiles/.elisp/anything/anything-c-adaptive-history"))
 
+; auto-complete.elがあればいらないかな
+;(require 'anything-dabbrev-expand)
+;(global-set-key "\C-u" 'anything-dabbrev-expand)
+;(define-key anything-dabbrev-map "\C-u" 'anything-dabbrev-find-all-buffers)
 
-(require 'anything-dabbrev-expand)
-(global-set-key "\C-u" 'anything-dabbrev-expand)
-(define-key anything-dabbrev-map "\C-u" 'anything-dabbrev-find-all-buffers)
-(define-key anything-dabbrev-map "\C-u" 'anything-dabbrev-find-all-buffers)
 
 ;; (setq anything-c-locate-db-file "/log/home.simple.locatedb")
 ;; (setq anything-c-locate-options `("locate" "-d" ,anything-c-locate-db-file "-i" "-r" "--"))

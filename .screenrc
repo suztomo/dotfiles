@@ -1,4 +1,6 @@
 autodetach on
 defscrollback 10000
 caption always "%{= wb} %-w%{=bu dr}%n %t%{-}%+w %= %{=b wk} [%l] %{=b wb}%y/%m/%d(%D) %{=b wm}%c"
+escape ^z^z
+
 
