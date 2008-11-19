@@ -22,7 +22,6 @@
 (setq riece-server-alist 
       '(("is2007" :host   "irc.freenode.net" :coding utf-8 :nickname "suzemacs")))
 
-
 ;; Tabはspace x 4
 (setq-default tab-width 4 indent-tabs-mode nil)
 
@@ -163,7 +162,7 @@
 
 
 ;; Yasnippet
-(require 'yasnippet-bundle)
+; (require 'yasnippet-bundle)
 
 
 ;; uniquify
@@ -176,23 +175,44 @@
 (global-auto-complete-mode t)
 
 
-
 (load "init-shell")
 (load "init-flymake")
-(load "init-js2")
+;(load "init-js2")
 (load "init-jaspace")
 (load "init-skk")
-(load "init-perl")
+;(load "init-perl")
 ;(load "init-cpp")
 ;(load "init-autosave-enhanced")
 (load "init-autosave")
 (load "init-anything")
 (load "init-revive")
 ;(load "init-html")
-(load "init-gauche")
+;(load "init-gauche")
 (load "init-python")
 (load "init-gdb")
 (load "init-gtags")
 
 
+;; 変態キーバインド
+;; http://d.hatena.ne.jp/k12u/20081118/p1
+(global-set-key [S-right] 'split-window-horizontally)
+(global-set-key [S-left] 'split-window-horizontally)
+(define-key global-map [S-up] 'split-window-vertically)
+(define-key global-map [S-down] 'delete-other-windows)
+
+(global-set-key [right] 'windmove-right)
+(global-set-key [left] 'windmove-left)
+(define-key global-map [up] 'windmove-up)
+(define-key global-map [down] 'windmove-down) 
+
+;(global-set-key [C-backspace] 'switch-to-buffer)
+(global-set-key [C-delete] '(lambda() (interactive)(kill-buffer (buffer-name))))
+
+;(global-set-key [C-right] 'elscreen-next)
+;(global-set-key [C-left] 'elscreen-previous)
+
+(global-set-key [C-return] 'find-file)
+
+
+;; デフォルトで分割
 (split-window-horizontally)

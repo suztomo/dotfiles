@@ -1,3 +1,5 @@
+(setq woman-cache-filename (expand-file-name "~/woman_cache"))
+
 (require 'anything-config)
 
 (define-key global-map "\M-f" 'anything)
@@ -6,6 +8,7 @@
 
 (setq anything-c-adaptive-history-file
       (expand-file-name "~/dotfiles/.elisp/anything/anything-c-adaptive-history"))
+
 
 (require 'anything-dabbrev-expand)
 (global-set-key "\C-u" 'anything-dabbrev-expand)
@@ -34,5 +37,5 @@
 ;            anything-c-source-info-pages
             anything-c-source-calculation-result
 ;            anything-c-source-plocate
-;            anything-c-source-locate
+            anything-c-source-locate
             ))

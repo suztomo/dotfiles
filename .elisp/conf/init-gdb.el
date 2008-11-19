@@ -1,12 +1,13 @@
 ;; Smart-compile & gdb
-(setq gdb-buffer-name-head "*gud")
-(setq compilation-buffer-name-head "*com")
+(setq tc-gdb-buffer-name-head "*gud")
+(setq tc-compilation-buffer-name-head "*com")
+(setq tc-directory "~/srm")
 
 (defun gdb-before-refresh-find-buffer (buf-list)
   (let ((buf (car buf-list))
         (last-bufs (cdr buf-list)))
-    (if (or (string-equal gdb-buffer-name-head (substring (buffer-name buf) 0 (length gdb-buffer-name-head)))
-            (string-equal compilation-buffer-name-head (substring (buffer-name buf) 0 (length compilation-buffer-name-head))))
+    (if (or (string-equal tc-gdb-buffer-name-head (substring (buffer-name buf) 0 (length tc-gdb-buffer-name-head)))
+            (string-equal tc-compilation-buffer-name-head (substring (buffer-name buf) 0 (length tc-compilation-buffer-name-head))))
       buf
       (if last-bufs
         (gdb-before-refresh-find-buffer last-bufs)
@@ -35,6 +36,7 @@
       (if gdb-buffer
         (kill-buffer gdb-buffer)
         nil)
+      (cd tc-directory)
       (command-execute 'gdb))))
 (define-key global-map "\M-g" 'gdb-before-refresh)
 
