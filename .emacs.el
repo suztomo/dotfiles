@@ -200,10 +200,10 @@
 (define-key global-map [S-up] 'split-window-vertically)
 (define-key global-map [S-down] 'delete-other-windows)
 
-(global-set-key [right] 'windmove-right)
-(global-set-key [left] 'windmove-left)
-(define-key global-map [up] 'windmove-up)
-(define-key global-map [down] 'windmove-down) 
+;(global-set-key [right] 'windmove-right)
+;(global-set-key [left] 'windmove-left)
+;(define-key global-map [up] 'windmove-up)
+;(define-key global-map [down] 'windmove-down) 
 
 ;(global-set-key [C-backspace] 'switch-to-buffer)
 (global-set-key [C-delete] '(lambda() (interactive)(kill-buffer (buffer-name))))

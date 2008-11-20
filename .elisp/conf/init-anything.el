@@ -18,24 +18,15 @@
 ;; (setq anything-c-locate-db-file "/log/home.simple.locatedb")
 ;; (setq anything-c-locate-options `("locate" "-d" ,anything-c-locate-db-file "-i" "-r" "--"))
 
-;(setq anything-sources
-;      '(anything-c-source-buffers
-;        anything-c-source-recentf
-;        anything-c-source-locate
-;        ))
-
-;;(append-list anything-sources
-;;             'anything-c-source-calculation-result)
-
-
-
 (setq anything-sources
       (list anything-c-source-buffers
             anything-c-source-bookmarks
             anything-c-source-file-name-history
+;            anything-c-source-file-cache
             anything-c-source-man-pages
 ;            anything-c-source-info-pages
             anything-c-source-calculation-result
 ;            anything-c-source-plocate
-            anything-c-source-locate
+;            anything-c-source-locate
+            anything-c-source-mac-spotlight
             ))
