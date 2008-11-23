@@ -1,3 +1,3 @@
-ln -s $HOME/.emacs.el $HOME/dotfiles/.emacs
-ln -s $HOME/.screenrc $HOME/dotfiles/.screenrc
-ln -s $HOME/.zshrc $HOME/dotfiles/.zshrc
+ln -s $HOME/dotfiles/.emacs.el $HOME/.emacs.el
+ln -s $HOME/dotfiles/.screenrc $HOME/.screenrc
+ln -s $HOME/dotfiles.zshrc $HOME/.zshrc
