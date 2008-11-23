@@ -46,15 +46,17 @@
 
 
 
-(when (eq window-system 'mac)
-  (add-hook 'window-setup-hook
-            (lambda ()
-;;              (setq mac-autohide-menubar-on-maximize t)
-              (set-frame-parameter nil 'fullscreen 'fullboth)
-              )))
+;; (when (eq window-system 'mac)
+;;   (add-hook 'window-setup-hook
+;;             (lambda ()
+;; ;;              (setq mac-autohide-menubar-on-maximize t)
+;;               (set-frame-parameter nil 'fullscreen 'fullboth)
+;;               )))
+;; CarbonEmacsやgtkのemacsで最大化
+(if window-system
+    (set-frame-parameter nil 'fullscreen 'fullboth))
 
-
-(defun mac-toggle-max-window ()
+(defun toggle-max-window ()
   (interactive)
   (if (frame-parameter nil 'fullscreen)
       (set-frame-parameter nil 'fullscreen nil)
@@ -136,31 +138,6 @@
 (setq truncate-partial-width-windows nil)
 
 
-;; Pysical Move, (not logical move)
-(global-set-key "\C-p" 'previous-window-line)
-(global-set-key "\C-n" 'next-window-line)
-(defun previous-window-line (n)
-  (interactive "p")
-  (let ((cur-col
-     (- (current-column)
-        (save-excursion (vertical-motion 0) (current-column)))))
-    (vertical-motion (- n))
-    (move-to-column (+ (current-column) cur-col)))
-  (run-hooks 'auto-line-hook)
-  )
-(defun next-window-line (n)
-  (interactive "p")
-  (let ((cur-col
-     (- (current-column)
-        (save-excursion (vertical-motion 0) (current-column))))) 
-    (vertical-motion n)
-    (move-to-column (+ (current-column) cur-col)))
-  (run-hooks 'auto-line-hook)
-  )
-
-
-
-
 ;; Yasnippet
 ; (require 'yasnippet-bundle)
 
@@ -174,7 +151,7 @@
 (require 'auto-complete)
 (global-auto-complete-mode t)
 
-
+(load "init-physical-move")
 (load "init-shell")
 (load "init-flymake")
 ;(load "init-js2")
@@ -187,7 +164,7 @@
 (load "init-anything")
 (load "init-revive")
 ;(load "init-html")
-;(load "init-gauche")
+(load "init-gauche")
 (load "init-python")
 (load "init-gdb")
 (load "init-gtags")
