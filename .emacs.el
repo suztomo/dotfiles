@@ -126,7 +126,7 @@
 ;; http://d.hatena.ne.jp/antipop/20080311/1205252552
 (defun ack ()
   (interactive)
-  (let ((grep-find-command "ack --nocolor --nogroup "))
+  (let ((grep-find-command "ack --nocolor --nogroup --ignore-dir=HTML"))
     (call-interactively 'grep-find)))
 
 
@@ -169,7 +169,7 @@
 (load "init-python")
 (load "init-gdb")
 (load "init-gtags")
-
+(load "init-search")
 
 ;; 変態キーバインド
 ;; http://d.hatena.ne.jp/k12u/20081118/p1
@@ -194,3 +194,5 @@
 
 ;; デフォルトで分割
 (split-window-horizontally)
+
+
