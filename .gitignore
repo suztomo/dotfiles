@@ -1,0 +1,13 @@
+*.o
+\#*#
+*#
+.#*
+.*~
+*~
+.DS_Store
+*.sw[po]
+tags
+TAGS
+Session.vim
+.svn
+*.dSYM
