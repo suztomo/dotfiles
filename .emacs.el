@@ -148,8 +148,8 @@
 
 ;; auto-complete.el
 ;; http://d.hatena.ne.jp/rubikitch/20081109/autocomplete
-(require 'auto-complete)
-(global-auto-complete-mode t)
+
+
 
 (load "init-physical-move")
 (load "init-shell")
@@ -170,7 +170,7 @@
 (load "init-python")
 (load "init-gdb")
 (load "init-gtags")
-(load "init-search")
+;(load "init-search")
 
 ;; 変態キーバインド
 ;; http://d.hatena.ne.jp/k12u/20081118/p1
