@@ -53,8 +53,7 @@
 ;;               (set-frame-parameter nil 'fullscreen 'fullboth)
 ;;               )))
 ;; CarbonEmacsやgtkのemacsで最大化
-(if window-system
-    (set-frame-parameter nil 'fullscreen 'fullboth))
+
 
 (defun toggle-max-window ()
   (interactive)
@@ -196,4 +195,4 @@
 ;; デフォルトで分割
 (split-window-horizontally)
 
-
+(if window-system (set-frame-parameter nil 'fullscreen 'fullboth))
