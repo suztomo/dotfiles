@@ -879,7 +879,7 @@ other candidate transformers."
 
 ;; User config
 
-(defvar anything-c-adaptive-history-file "~/.emacs.d/anything-c-adaptive-history"
+(defvar anything-c-adaptive-history-file "~/anything-c-adaptive-history"
   "Path of file where history information is stored.")
 
 (defvar anything-c-adaptive-history-length 50

@@ -162,6 +162,7 @@
 ;(load "init-cpp")
 ;(load "init-autosave-enhanced")
 (load "init-autosave")
+(load "init-auto-complete")
 (load "init-anything")
 (load "init-revive")
 ;(load "init-html")

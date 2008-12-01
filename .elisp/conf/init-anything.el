@@ -1,13 +1,14 @@
 (setq woman-cache-filename (expand-file-name "~/woman_cache"))
-
+;(setq anything-c-adaptive-history-file
+;      (expand-file-name "~/dotfiles/.elisp/anything/anything-c-adaptive-history"))
 (require 'anything-config)
+
+;(defvar anything-c-adaptive-history-file "~/anything-c-adaptive-history"
+;  "Path of file where history information is stored.")
 
 (define-key global-map "\M-f" 'anything)
 (define-key anything-map "\C-n" 'anything-next-line)
 (define-key anything-map "\C-p" 'anything-previous-line)
-
-(setq anything-c-adaptive-history-file
-      (expand-file-name "~/dotfiles/.elisp/anything/anything-c-adaptive-history"))
 
 ; auto-complete.elがあればいらないかな
 ;(require 'anything-dabbrev-expand)
