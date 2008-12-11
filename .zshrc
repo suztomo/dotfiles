@@ -198,8 +198,6 @@ esac
 ## terminal configuration
 # http://journal.mycom.co.jp/column/zsh/009/index.html
 unset LSCOLORS
-zstyle ':completion:*' list-colors \
-    'di=;36;1' 'ln=;35;1' 'so=;32;1' 'ex=31;1' 'bd=46;34' 'cd=43;34'
 
 case "${TERM}" in
 xterm)

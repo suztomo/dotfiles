@@ -170,6 +170,8 @@
 (load "init-gdb")
 (load "init-gtags")
 ;(load "init-search")
+;(load "less")
+
 
 ;; 変態キーバインド
 ;; http://d.hatena.ne.jp/k12u/20081118/p1
