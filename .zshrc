@@ -314,3 +314,5 @@ function __rm_single_file(){
 }
 
 #alias rm='rmf'
+
+alias ssmake="cd ~/git/simple_server;make; popd"
