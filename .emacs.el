@@ -175,9 +175,9 @@
 
 ;; 変態キーバインド
 ;; http://d.hatena.ne.jp/k12u/20081118/p1
-(global-set-key [S-right] 'split-window-horizontally)
-(global-set-key [S-left] 'split-window-horizontally)
-(define-key global-map [S-up] 'split-window-vertically)
+;(global-set-key [S-right] 'split-window-horizontally)
+;(global-set-key [S-left] 'split-window-horizontally)
+;(define-key global-map [S-up] 'split-window-vertically)
 (define-key global-map [S-down] 'delete-other-windows)
 
 ;(global-set-key [right] 'windmove-right)

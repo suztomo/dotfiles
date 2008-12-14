@@ -20,6 +20,18 @@
 ;; (setq anything-c-locate-db-file "/log/home.simple.locatedb")
 ;; (setq anything-c-locate-options `("locate" "-d" ,anything-c-locate-db-file "-i" "-r" "--"))
 
+
+
+; cscope?
+; http://d.hatena.ne.jp/tunefs/20070325/p1
+; C-c s c : Calling this function
+; C-c s G : find global definition (and Move!)
+; C-c s d : find global definition
+; C-c s c : find calling this function
+; xcscope.el is available from http://cscope.sourceforge.net/#downloads
+(require 'anything-cscope)
+
+
 (setq anything-sources
       (list anything-c-source-buffers
 ;            anything-c-source-bookmarks
@@ -34,12 +46,3 @@
 ;            anything-c-source-locate
 ;            anything-c-source-mac-spotlight
             ))
-
-; cscope?
-; http://d.hatena.ne.jp/tunefs/20070325/p1
-; C-c s c : Calling this function
-; C-c s G : find global definition (and Move!)
-; C-c s d : find global definition
-; C-c s c : find calling this function
-; xcscope.el is available from http://cscope.sourceforge.net/#downloads
-(require 'anything-cscope)

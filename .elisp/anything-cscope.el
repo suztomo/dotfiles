@@ -1,4 +1,4 @@
-c(require 'anything)
+(require 'anything)
 (require 'xcscope)
 
 (defvar anything-cscope-db-directory nil)
