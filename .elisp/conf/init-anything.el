@@ -27,7 +27,7 @@
 ; C-c s c : Calling this function
 ; C-c s G : find global definition (and Move!)
 ; C-c s d : find global definition
-; C-c s c : find calling this function
+; C-c s C : find called this function
 ; xcscope.el is available from http://cscope.sourceforge.net/#downloads
 (require 'anything-cscope)
 
