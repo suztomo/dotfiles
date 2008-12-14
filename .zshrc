@@ -171,7 +171,7 @@ case "${OSTYPE}" in
 darwin*)
     alias updateports="sudo port selfupdate; sudo port outdated"
     alias portupgrade="sudo port upgrade installed"
-		export PATH=$PATH:/opt/local/bin:~/dotfiles/bin
+    export PATH=$PATH:/opt/local/bin:/opt/local/sbin/
     ;;
 freebsd*)
     case ${UID} in
@@ -260,8 +260,9 @@ alias p='ping -c 4'
 
 export EDITOR=vim
 export PATH=$PATH:$HOME/local/bin:/usr/local/git/bin
-export PATH=$PATH:/sbin:/opt/local/sbin/:/usr/local/bin
-export MANPATH=$MANPATH:/opt/local/man
+export PATH=$PATH:$HOME/dotfiles/bin:/work/tsuzuki/local/bin
+export PATH=$PATH:/sbin:usr/local/bin
+export MANPATH=$MANPATH:/opt/local/man:/usr/local/share/man
 
 expand-to-home-or-insert () {
         if [ "$LBUFFER" = "" -o "$LBUFFER[-1]" = " " ]; then
