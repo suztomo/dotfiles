@@ -1,3 +1,0 @@
-;; -*- mode: emacs-lisp -*-
-;; History entries used for anything adaptive display.
-(setq anything-c-adaptive-history (quote ((file ("~/srm/LinearPolyominoCovering.cpp" ("" . 1)) ("~/sshfs/HatenaBottleTwit.py" ("hatena" . 1))) (buffer ("IngredientProportions.cpp" ("" . 1)) ("LinearPolyominoCovering.cpp" ("" . 1)) ("less.el" ("less" . 2)) ("BattleshipChecker.cpp" ("" . 2)) ("smart-compile.el" ("" . 1)) ("GroupWork.cpp" ("" . 4) ("gr" . 1)) ("VowelLatin.cpp" ("" . 1)) ("TheDictionary.cpp" ("" . 3)) ("*gud-TheDictionary*" ("gud" . 1)) ("HatenaBottleTwit.py" ("" . 1)) ("CFLCustom-TZTester.java" ("" . 1)) ("TheLuckyString.cpp" ("" . 1)) ("ThePalindrome.cpp" ("" . 2)) ("*Messages*" ("" . 1)) ("*scratch*" ("" . 2))))))
