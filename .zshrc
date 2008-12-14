@@ -171,7 +171,7 @@ case "${OSTYPE}" in
 darwin*)
     alias updateports="sudo port selfupdate; sudo port outdated"
     alias portupgrade="sudo port upgrade installed"
-		export PATH=$PATH:/opt/local/bin
+		export PATH=$PATH:/opt/local/bin:~/dotfiles/bin
     ;;
 freebsd*)
     case ${UID} in
