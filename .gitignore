@@ -11,3 +11,6 @@ TAGS
 Session.vim
 .svn
 *.dSYM
+*.log
+*.dvi
+*.aux
