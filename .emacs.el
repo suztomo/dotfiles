@@ -205,3 +205,10 @@
 (autoload 'whizzytex-mode
 "whizzytex"
 "WhizzyTeX, a minor-mode WYSIWIG environment for LaTeX" t)
+
+;; Egg the emacs controller of git
+;; http://github.com/bogolisk/egg/wikis
+;; C-v + c:commit, d:status, l:log, l p:push
+
+(add-to-list 'exec-path "/usr/local/git/bin")
+(require 'egg)
