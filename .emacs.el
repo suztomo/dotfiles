@@ -198,3 +198,10 @@
 (split-window-horizontally)
 
 (if window-system (set-frame-parameter nil 'fullscreen 'fullboth))
+
+
+; adjust Jis_table
+; define whizzy-command-name
+(autoload 'whizzytex-mode
+"whizzytex"
+"WhizzyTeX, a minor-mode WYSIWIG environment for LaTeX" t)
