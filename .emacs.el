@@ -212,3 +212,12 @@
 
 (add-to-list 'exec-path "/usr/local/git/bin")
 (require 'egg)
+
+;; Bookmark
+(defadvice bookmark-set (around bookmark-set-ad activate)
+  (bookmark-load bookmark-default-file t t) ;; 登録前に最新のブックマークを読み直す
+  ad-do-it
+  (bookmark-save))
+
+(defadvice bookmark-jump (before bookmark-set-ad activate)
+  (bookmark-load bookmark-default-file t t))
