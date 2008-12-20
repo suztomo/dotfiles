@@ -34,12 +34,12 @@
 
 (setq anything-sources
       (list anything-c-source-buffers
-;            anything-c-source-bookmarks
+            anything-c-source-bookmarks
             anything-c-source-cscope-global-definition
             anything-c-source-cscope-calling-this-function
-            anything-c-source-file-name-history
+;            anything-c-source-file-name-history
 ;            anything-c-source-file-cache
-            anything-c-source-man-pages
+;            anything-c-source-man-pages
 ;            anything-c-source-info-pages
             anything-c-source-calculation-result
 ;            anything-c-source-plocate
