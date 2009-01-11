@@ -61,15 +61,12 @@ _update_rprompt () {
   fi
 }
 
-alias postcmd 'precmd'
-
 precmd()
 {
   _set_env_git_current_branch
   _update_rprompt
 }
 
-precmd
 
 chpwd()
 {
@@ -256,9 +253,9 @@ cons25)
 
 kterm*|xterm*)
    # Terminal.app
-    precmd() {
-        echo -ne "\033]0;${USER}@${HOST%%.*}:${PWD}\007"
-    }
+#    precmd() {
+#        echo -ne "\033]0;${USER}@${HOST%%.*}:${PWD}\007"
+#    }
    # export LSCOLORS=exfxcxdxbxegedabagacad
 		export LSCOLORS=gxfxcxdxbxegedabagacad
     export LS_COLORS='di=1;34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30'
