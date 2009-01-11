@@ -31,7 +31,7 @@
 
 ;; utf-8
 (progn
- (set-language-environment 'Japanese)
+  (set-language-environment 'Japanese)
   (set-terminal-coding-system 'utf-8)
   (setq file-name-coding-system 'utf-8)
   (set-clipboard-coding-system 'utf-8)

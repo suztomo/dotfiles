@@ -31,7 +31,6 @@
 ; xcscope.el is available from http://cscope.sourceforge.net/#downloads
 (require 'anything-cscope)
 
-
 (setq anything-sources
       (list anything-c-source-buffers
             anything-c-source-bookmarks

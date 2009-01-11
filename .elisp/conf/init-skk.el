@@ -16,25 +16,32 @@
 
 (setq skk-large-jisyo "~/Library/AquaSKK/SKK-JISYO.L")
 
+
+
 ;; ラージ辞書ではなくskkservへ
-;;(setq skk-large-jisyo nil)
-;; (when (eq window-system 'mac)
-;;   (add-hook 'window-setup-hook
-;;     (lambda ()
-;;       (progn
-;;         (setq skk-server-host "127.0.0.1")
-;;         (setq skk-server-potnum 1178)))))
+
+(when (eq window-system 'mac)
+  (add-hook 'window-setup-hook
+    (lambda ()
+      (progn
+        (setq skk-large-jisyo nil)
+        (setq skk-server-host "127.0.0.1")
+        (setq skk-server-potnum 1178)
+        (message "SKK serv setup")
+        )
+
+      )))
 
 (setq skk-kutouten-type 'en)
 
 ;; 変換時，改行でも確定
-(setq skk-egg-like-newline nil)
+(setq skk-egg-like-newline t)
 
 ;; メッセージは日本語で
 (setq skk-japanese-message-and-error t)
 
 ;;"「"を入力したら"」"も自動で挿入
-(setq skk-auto-insert-paren t)
+;(setq skk-auto-insert-paren nil)
 
 ;;漢字登録のミスをチェックする
 (setq skk-check-okurigana-on-touroku t)
@@ -57,3 +64,6 @@
 ;; (run-with-idle-timer skk-auto-save-jisyo-interval
 ;;                      skk-auto-save-jisyo-interval
 ;;                      'skk-auto-save-jisyo)
+
+
+

@@ -50,22 +50,26 @@ ${GREEN}%(5~,%-2~/.../%2~,%~)% ${RED} $ ${RESET}'
 # http://blog.s21g.com/articles/1159
 
 _set_env_git_current_branch() {
-  GIT_CURRENT_BRANCH=$( git branch &> /dev/null | grep '^\*' | cut -b 3- )
+  GIT_CURRENT_BRANCH=$( git branch 2> /dev/null | grep '^\*' | cut -b 3- )
 }
 
 _update_rprompt () {
   if [ "`git ls-files 2>/dev/null`" ]; then
-    RPROMPT='${CYAN}git[$GIT_CURRENT_BRANCH]${RESET}'
+    RPROMPT='${CYAN}git[branch:$GIT_CURRENT_BRANCH]${RESET}'
   else
     RPROMPT=""
   fi
 }
+
+alias postcmd 'precmd'
 
 precmd()
 {
   _set_env_git_current_branch
   _update_rprompt
 }
+
+precmd
 
 chpwd()
 {
