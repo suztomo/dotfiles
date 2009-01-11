@@ -16,7 +16,7 @@ bindkey "^?" backward-delete-char
 ## Default shell configuration
 #
 # set prompt
-#
+# colors enables us to idenfity color by $fg[red].
 autoload colors
 colors
 case ${UID} in
@@ -37,12 +37,42 @@ RESET="%{${reset_color}%}"
 GREEN="%{${fg[green]}%}"
 BLUE=$'%{\e[1;35m%}'
 RED="%{${fg[red]}%}"
+CYAN="%{${fg[cyan]}%}"
 #
 # Prompt
 #
 setopt prompt_subst
 PROMPT='${RED}${USER}@${HOST} ${GREEN}%~${RESET}
 ${GREEN}%(5~,%-2~/.../%2~,%~)% ${RED} $ ${RESET}'
+
+
+# Show git branch when you are in git repository
+# http://blog.s21g.com/articles/1159
+
+_set_env_git_current_branch() {
+  GIT_CURRENT_BRANCH=$( git branch &> /dev/null | grep '^\*' | cut -b 3- )
+}
+
+_update_rprompt () {
+  if [ "`git ls-files 2>/dev/null`" ]; then
+    RPROMPT='${CYAN}git[$GIT_CURRENT_BRANCH]${RESET}'
+  else
+    RPROMPT=""
+  fi
+}
+
+precmd()
+{
+  _set_env_git_current_branch
+  _update_rprompt
+}
+
+chpwd()
+{
+  _set_env_git_current_branch
+  _update_rprompt
+}
+
 
 
 #    PROMPT="%{${fg[red]}%}%/%%%{${reset_color}%} "
@@ -316,3 +346,8 @@ function __rm_single_file(){
 #alias rm='rmf'
 
 alias ssmake="cd ~/git/simple_server;make; popd"
+
+if [ -e ~/.zshrc_local ]
+then
+  source ~/.zshrc_local
+fi
