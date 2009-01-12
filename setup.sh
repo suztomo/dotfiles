@@ -13,7 +13,7 @@ then
   echo "git found!"
   git config --global user.name "suztomo"
   git config --global user.email "suztomo@gmail.com"
-  git config --global core.excludeesfile "$HOME/.gitignore"
+  git config --global core.excludesfile "$HOME/.gitignore"
 else echo "no git"
 fi
 
