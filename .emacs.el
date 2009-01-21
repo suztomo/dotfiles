@@ -171,6 +171,7 @@
 (load "init-gtags")
 ;(load "init-search")
 ;(load "less")
+(load "init-spell")
 
 
 ;; 変態キーバインド
@@ -178,7 +179,7 @@
 ;(global-set-key [S-right] 'split-window-horizontally)
 ;(global-set-key [S-left] 'split-window-horizontally)
 ;(define-key global-map [S-up] 'split-window-vertically)
-(define-key global-map [S-down] 'delete-other-windows)
+;(define-key global-map [S-down] 'delete-other-windows)
 
 ;(global-set-key [right] 'windmove-right)
 ;(global-set-key [left] 'windmove-left)
@@ -186,12 +187,11 @@
 ;(define-key global-map [down] 'windmove-down) 
 
 ;(global-set-key [C-backspace] 'switch-to-buffer)
-(global-set-key [C-delete] '(lambda() (interactive)(kill-buffer (buffer-name))))
+;(global-set-key [C-delete] '(lambda() (interactive)(kill-buffer (buffer-name))))
 
 ;(global-set-key [C-right] 'elscreen-next)
 ;(global-set-key [C-left] 'elscreen-previous)
-
-(global-set-key [C-return] 'find-file)
+;(global-set-key [C-return] 'find-file)
 
 
 ;; デフォルトで分割

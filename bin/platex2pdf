@@ -1,0 +1,4 @@
+#!/bin/sh
+platex $1
+dvipdfmx ${1%tex}dvi
+open -a Skim.app ${1%tex}pdf
