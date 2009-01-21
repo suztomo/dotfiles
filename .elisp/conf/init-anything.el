@@ -6,7 +6,9 @@
 ;(defvar anything-c-adaptive-history-file "~/anything-c-adaptive-history"
 ;  "Path of file where history information is stored.")
 
-(define-key global-map "\M-f" 'anything)
+
+(global-set-key [?\C-;] 'anything)
+
 (define-key anything-map "\C-n" 'anything-next-line)
 (define-key anything-map "\C-p" 'anything-previous-line)
 
