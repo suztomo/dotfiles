@@ -145,9 +145,17 @@
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
-;; auto-complete.el
-;; http://d.hatena.ne.jp/rubikitch/20081109/autocomplete
 
+; install-elisp
+; http://d.hatena.ne.jp/tomoya/20090121/1232536106
+(require 'install-elisp)
+(setq install-elisp-repository-directory (expand-file-name "~/dotfiles/.elisp/"))
+
+; key-chord
+; http://d.hatena.ne.jp/rubikitch/20081104/1225745862
+(require 'key-chord)
+(setq key-chord-two-keys-delay 0.04)
+(key-chord-mode 1)
 
 
 (load "init-physical-move")
@@ -172,6 +180,7 @@
 ;(load "init-search")
 ;(load "less")
 (load "init-spell")
+(load "init-view")
 
 
 ;; 変態キーバインド
