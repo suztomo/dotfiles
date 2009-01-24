@@ -22,3 +22,5 @@
 (custom-set-variables
  '(flyspell-use-global-abbrev-table-p nil))
 
+(custom-set-variables
+ '(flyspell-auto-correct-binding [(control ?\t)]))
