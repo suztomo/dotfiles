@@ -182,6 +182,12 @@
 (load "init-spell")
 (load "init-view")
 
+;; Physical line
+; http://hal.e-fpage.com/t/20080901.html#p01
+(require 'physical-line)
+(define-key global-map "\C-a" 'physical-line-beginning-of-line)
+(define-key global-map "\C-e" 'physical-line-end-of-line)
+
 
 ;; 変態キーバインド
 ;; http://d.hatena.ne.jp/k12u/20081118/p1
