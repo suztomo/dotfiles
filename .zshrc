@@ -177,6 +177,7 @@ setopt complete_aliases     # aliased ls needs if file/dir completions work
 
 alias where="command -v"
 alias j="jobs -l"
+alias 'ps?'='ps alx |grep '
 
 case "${OSTYPE}" in
 freebsd*|darwin*)
