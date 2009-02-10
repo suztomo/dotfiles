@@ -8,9 +8,9 @@
 ;(define-key ac-complete-mode-map "\t" 'ac-complete)
 ;(define-key ac-complete-mode-map "\r" nil)
 
-(require 'ac-dabbrev)
-(setq ac-sources
-(list ac-source-dabbrev
-))
+;; (require 'ac-dabbrev)
+;; (setq ac-sources
+;; (list ac-source-dabbrev
+;; ))
 
 
