@@ -83,14 +83,14 @@
 ;;          (local-file  (file-relative-name
 ;;                        temp-file
 ;;                        (file-name-directory buffer-file-name))))
-;;     (list "gcc" (list "-Wall" "-Wextra" "-lpcap" local-file))))
+;;     (list "gcc" (list "-Wall" "-Wextra" "-lpcap" "-I../include" "-I/opt/local/include" local-file))))
 
 
 ;; (push '("\\.c$" flymake-c-init) flymake-allowed-file-name-masks)
 
-;(add-hook 'c-mode-hook
-;          '(lambda ()
-;             (flymake-mode t)))
+(add-hook 'c-mode-hook
+         '(lambda ()
+            (flymake-mode t)))
 
 
 
@@ -119,3 +119,12 @@
         (flymake-log 0 "switched OFF Flymake mode due to unknown fatal status (maybe tramp is running)"))))
 (ad-activate 'flymake-report-status)
 (add-hook 'cperl-mode-hook '(lambda () (flymake-perl-load)))
+
+
+(add-hook 'c-mode-common-hook
+          '(lambda ()
+             ;; センテンスの終了である ';' を入力したら、自動改行+インデント
+;             (c-toggle-auto-hungry-state 1)
+             ;; RET キーで自動改行+インデント
+             (define-key c-mode-base-map "\C-m" 'newline-and-indent)
+))
