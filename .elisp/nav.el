@@ -82,7 +82,8 @@
   :group 'nav)
 
 (defcustom nav-boring-file-regexps
-  (list "\\.pyc$" "\\.o$" "~$" "\\.bak$" "^\\.[^/]" "^\\./?$" "/\\.")
+;  (list "\\.pyc$" "\\.o$" "~$" "\\.bak$" "^\\.[^/]" "^\\./?$" "/\\.")
+  (list "\\.pyc$" "\\.o$" "~$" "\\.bak$")
   "*Nav ignores filenames that match any regular expression in this list."
   :type '(repeat string)
   :group 'nav)

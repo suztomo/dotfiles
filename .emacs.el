@@ -182,6 +182,12 @@
 (load "init-spell")
 (load "init-view")
 
+;(add-to-list 'load-path "/directory/containing/nav/")
+;; Project home http://code.google.com/p/emacs-nav/
+;; Instructions are seen in the source file nav.el
+(require 'nav)
+
+
 ;; Physical line
 ; http://hal.e-fpage.com/t/20080901.html#p01
 (require 'physical-line)
