@@ -214,6 +214,24 @@
 ;(global-set-key [C-left] 'elscreen-previous)
 ;(global-set-key [C-return] 'find-file)
 
+;--------------------------------------------------------------------------------
+;; scroll n line from Mr.Sekiguchi *C-q と C-z に当てている。
+; by katchan
+;--------------------------------------------------------------------------------
+(defun scroll-n-lines-ahead (&optional n)
+  "Scroll ahead N lines (default N = 2)"
+  (interactive "p")
+  (scroll-up (prefix-numeric-value n)))
+(defun scroll-n-lines-behind (&optional n)
+  "Scroll behind N lines (default N = 2)"
+  (interactive "p")
+  (scroll-down (prefix-numeric-value n)))
+(global-set-key "\C-z" 'scroll-n-lines-ahead)
+(global-set-key "\C-q" 'scroll-n-lines-behind)
+
+
+
+
 
 ;; デフォルトで分割
 (split-window-horizontally)
