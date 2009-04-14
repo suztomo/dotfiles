@@ -137,9 +137,6 @@
 (setq truncate-partial-width-windows nil)
 
 
-;; Yasnippet
-; (require 'yasnippet-bundle)
-
 
 ;; uniquify
 (require 'uniquify)
@@ -181,6 +178,7 @@
 ;(load "less")
 (load "init-spell")
 (load "init-view")
+(load "init-yasnippet")
 
 ;(add-to-list 'load-path "/directory/containing/nav/")
 ;; Project home http://code.google.com/p/emacs-nav/
