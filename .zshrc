@@ -204,6 +204,7 @@ darwin*)
     alias updateports="sudo port selfupdate; sudo port outdated"
     alias portupgrade="sudo port upgrade installed"
     export PATH=$PATH:/opt/local/bin:/opt/local/sbin/
+    export PATH=$PATH:/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/
     ;;
 freebsd*)
     case ${UID} in
