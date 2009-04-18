@@ -6,8 +6,7 @@
 import re
 import sys
 
-from subprocess import *
-
+from subprocess import Popen, PIPE
 
 p = Popen("pylint -f parseable -r n --disable-msg-cat=C,R --indent-string='    ' %s" %
           sys.argv[1], shell = True, stdout = PIPE).stdout
@@ -19,9 +18,9 @@ for line in p.readlines():
         func = match.group(3)
 
         if kind == "W":
-           msg = "Warning"
+            msg = "Warning"
         else:
-           msg = "Error"
+            msg = "Error"
 
         if func:
             line = re.sub("\\[([WE])(, (.+?))?\\]",
