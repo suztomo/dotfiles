@@ -23,6 +23,7 @@
   (setenv "PYTHONPATH" (concat "/Users/suztomo/Documents/gae/rss-twit/third_party:"
                                (getenv "PYTHONPATH")))
   (setenv "PYTHONPATH" (concat "/usr/local/google_appengine/:/usr/local/google_appengine/lib/yaml/lib/:/usr/local/google_appengine/lib/webob/:/usr/local/google_appengine/lib/django/django/:" (getenv "PYTHONPATH")))
+  (setenv "PYTHONPATH" (concat "./:./third_party:" (getenv "PYTHONPATH")))
 )
 
 
