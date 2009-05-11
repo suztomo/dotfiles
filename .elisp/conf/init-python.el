@@ -47,5 +47,12 @@
           '(lambda ()
              (flymake-mode t)))
 
+;(add-hook 'python-mode-hook
+;          '(lambda () (eldoc-mode 1)) t)
+
+(setq py-indent-offset 4)
+
 (add-hook 'python-mode-hook
-          '(lambda () (eldoc-mode 1)) t)
+          (function (lambda ()
+                      (setq tab-width py-indent-offset)
+                      )))

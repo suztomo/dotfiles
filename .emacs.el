@@ -180,6 +180,8 @@
 (load "init-view")
 (load "init-yasnippet")
 
+(require 'linum)
+
 ;(add-to-list 'load-path "/directory/containing/nav/")
 ;; Project home http://code.google.com/p/emacs-nav/
 ;; Instructions are seen in the source file nav.el
