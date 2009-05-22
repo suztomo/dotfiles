@@ -268,6 +268,12 @@ kterm*|xterm*)
 
 dumb)
     echo "Welcome Emacs Shell"
+    alias man="man -P cat"
+    # http://en.yummy.stripper.jp/?eid=561843
+    # C-c C-r 最後のコマンドの出力の1行目へジャンプ
+    # C-c C-o 最後のコマンドの出力を削除（キルリングへ）
+    # C-c C-p ひとつ前の出力グループの先頭へジャンプ
+    # C-c C-n ひとつ後の出力グループの先頭へジャンプ
     ;;
 esac
 
@@ -354,9 +360,4 @@ alias ssmake="cd ~/git/simple_server;make; popd"
 if [ -e ~/.zshrc_local ]
 then
   source ~/.zshrc_local
-fi
-
-if [ $EMACS ]
-then
-  alias man="man -P cat"
 fi
