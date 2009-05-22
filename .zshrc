@@ -355,3 +355,8 @@ if [ -e ~/.zshrc_local ]
 then
   source ~/.zshrc_local
 fi
+
+if [ $EMACS ]
+then
+  alias man="man -P cat"
+fi
