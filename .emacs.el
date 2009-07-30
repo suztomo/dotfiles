@@ -74,7 +74,7 @@
 ;;Color
 (if window-system (progn
    (set-background-color "Black")
-   (set-foreground-color "LightGray")
+   (set-foreground-color "White")
    (set-cursor-color "Gray")
    (set-frame-parameter nil 'alpha 80)
    ))
@@ -112,12 +112,13 @@
 ;  (setq make-backup-files nil))
 
 ;; Show time in status line
-(progn
-  (setq display-time-24hr-format t)
-  (setq display-time-format "%Y-%m-%d(%a) %H:%M")
-  (setq display-time-day-and-date t)
-  (setq display-time-interval 30)
-  (display-time))
+
+;(progn
+;  (setq display-time-24hr-format t)
+;  (setq display-time-format "%Y-%m-%d(%a) %H:%M")
+;  (setq display-time-day-and-date t)
+;  (setq display-time-interval 30)
+;  (display-time))
 
 
 
@@ -179,6 +180,7 @@
 (load "init-spell")
 (load "init-view")
 (load "init-yasnippet")
+(load "init-c")
 
 (require 'linum)
 
@@ -250,7 +252,8 @@
 ;; C-v + c:commit, d:status, l:log, l p:push
 
 (add-to-list 'exec-path "/usr/local/git/bin")
-(require 'egg)
+(add-to-list 'exec-path "~/local/bin")
+;(require 'egg)
 
 ;; Bookmark
 (defadvice bookmark-set (around bookmark-set-ad activate)

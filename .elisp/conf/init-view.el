@@ -6,8 +6,8 @@
       `( ;; vi-like
         ("h" . backward-word)
         ("l" . forward-word)
-        ("j" . next-window-line)
-        ("k" . previous-window-line)
+        ("j" . ,(lambda () (interactive) (scroll-up 1)))
+        ("k" . ,(lambda () (interactive) (scroll-down 1)))
         (";" . gene-word)
         ("b" . scroll-down)
         (" " . scroll-up)

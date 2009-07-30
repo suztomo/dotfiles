@@ -33,6 +33,9 @@
 ; xcscope.el is available from http://cscope.sourceforge.net/#downloads
 (require 'anything-cscope)
 
+;(require 'anything-grep)
+;(require 'anything-gtags)
+
 (setq anything-sources
       (list anything-c-source-buffers
             anything-c-source-bookmarks
@@ -43,6 +46,8 @@
 ;            anything-c-source-man-pages
 ;            anything-c-source-info-pages
             anything-c-source-calculation-result
+;            anything-c-source-gtags-select
+;            agrep-source
 ;            anything-c-source-plocate
 ;            anything-c-source-locate
 ;            anything-c-source-mac-spotlight
