@@ -45,7 +45,7 @@
 
 (add-hook 'python-mode-hook
           '(lambda ()
-             (flymake-mode t)))
+             (flymake-mode nil)))
 
 ;(add-hook 'python-mode-hook
 ;          '(lambda () (eldoc-mode 1)) t)

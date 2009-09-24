@@ -260,3 +260,18 @@
 
 (defadvice bookmark-jump (before bookmark-set-ad activate)
   (bookmark-load bookmark-default-file t t))
+
+
+(defun pukiwiki-pre ()
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (replace-regexp "^$" "　")
+    (goto-char (point-max))
+    (beginning-of-line)
+    (forward-char)
+    (open-rectangle (point-min) (point))
+    (mark-whole-buffer)
+    (copy-region-as-kill-nomark (point-min) (point-max))
+    )
+)

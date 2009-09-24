@@ -1,5 +1,9 @@
 # users generic .zshrc file for zsh(1)
 
+alias vim=emacs
+alias emacs=vim
+
+alias ls=~/.bin/sl
 
 ## Environment variable configuration
 #
@@ -205,6 +209,7 @@ darwin*)
     alias portupgrade="sudo port upgrade installed"
     export PATH=$PATH:/opt/local/bin:/opt/local/sbin/
     export PATH=$PATH:/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/
+    export PATH=$PATH:"/Applications/Adobe Flex Builder 3/sdks/3.2.0/bin"
     ;;
 freebsd*)
     case ${UID} in
@@ -289,13 +294,14 @@ esac
 alias 'vi'='vim'
 alias 'src'='exec zsh' 
 alias 'm'='make'
-alias 'g'='grep'
+alias 'g'='~/dotfiles/bin/grep.sh'
 alias 'mn'='make native-code'
 alias 'mc'='make clean'
 alias s='screen -S main'
 alias pon='predict-on'
 alias poff='predict-off'
 alias p='ping -c 4'
+alias om='omake'
 
 export EDITOR=vim
 export PATH=$PATH:$HOME/local/bin:/usr/local/git/bin
