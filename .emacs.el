@@ -9,9 +9,10 @@
 ;; C-h to backspace
 ;;(global-set-key "\C-h" 'delete-backward-char)
 
-;;(setq auto-mode-alist (cons '("??.ml??w?" . tuareg-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '("??.ml??w?" . tuareg-mode) auto-mode-alist))
 (autoload 'tuareg-mode "tuareg" "Major mode for editing Caml code" t)
 (autoload 'camldebug "camldebug" "Run the Caml debugger" t)
+
 
 
 (line-number-mode t)
