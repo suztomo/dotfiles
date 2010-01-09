@@ -9,11 +9,16 @@
 ;; C-h to backspace
 ;;(global-set-key "\C-h" 'delete-backward-char)
 
-(setq auto-mode-alist (cons '("??.ml??w?" . tuareg-mode) auto-mode-alist))
+(setq auto-mode-alist
+   (cons '("\\.ml$" . tuareg-mode) auto-mode-alist))
+(setq auto-mode-alist
+   (cons '("\\.mli$" . tuareg-mode) auto-mode-alist))
 (autoload 'tuareg-mode "tuareg" "Major mode for editing Caml code" t)
 (autoload 'camldebug "camldebug" "Run the Caml debugger" t)
 
 
+(setq auto-mode-alist
+   (cons '("\\.pde$" . java-mode) auto-mode-alist))
 
 (line-number-mode t)
 ;(column-number-mode nil)
@@ -279,3 +284,4 @@
     (copy-region-as-kill-nomark (point-min) (point-max))
     )
 )
+
