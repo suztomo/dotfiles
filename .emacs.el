@@ -99,8 +99,8 @@
 
 
 ;; Yatex Mode
-(setq auto-mode-alist (cons '("\\.tex$" . yatex-mode) auto-mode-alist))
-(add-hook 'yatex-mode-hook' (lambda () (setq auto-fill-function nil)))
+;;(setq auto-mode-alist (cons '("\\.tex$" . yatex-mode) auto-mode-alist))
+;;(add-hook 'yatex-mode-hook' (lambda () (setq auto-fill-function nil)))
 
 
 ;; Smooth down key
