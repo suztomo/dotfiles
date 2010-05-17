@@ -67,6 +67,10 @@
       (set-frame-parameter nil 'fullscreen nil)
     (set-frame-parameter nil 'fullscreen 'fullboth)))
 
+(defun tm ()
+  (interactive)
+  (toggle-max-window))
+
 ;; Carbon Emacsの設定で入れられた
 (custom-set-variables
  '(display-time-mode t)
