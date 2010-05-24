@@ -187,13 +187,9 @@
 ;(load "less")
 (load "init-spell")
 (load "init-view")
-<<<<<<< HEAD
-(load "init-yasnippet")
-;; (load "init-c")
-=======
 ;(load "init-yasnippet")
 (load "init-c")
->>>>>>> 5456972993fb7b0f6abb3b2f2d1360e985582f38
+
 
 (require 'linum)
 
