@@ -177,7 +177,7 @@
 ;(load "init-cpp")
 ;(load "init-autosave-enhanced")
 (load "init-autosave")
-(load "init-auto-complete")
+;(load "init-auto-complete")
 (load "init-anything")
 (load "init-revive")
 ;(load "init-html")
@@ -189,7 +189,7 @@
 ;(load "less")
 (load "init-spell")
 (load "init-view")
-(load "init-yasnippet")
+;(load "init-yasnippet")
 (load "init-c")
 
 (require 'linum)
