@@ -3,7 +3,8 @@
 ;; http://beta-reduction.blogspot.com/2010/01/blog-post.html
 ;; For major mode coding conventions, see
 ;;   http://www.gnu.org/s/emacs/manual/html_node/elisp/Major-Mode-Conventions.html#Major-Mode-Conventions
-(require 'cl)
+(eval-when-compile (require 'cl))
+
 
 (defcustom at-indent-level 2
   "*Indentation of AmbientTalk statements with respect to containing block."
@@ -46,7 +47,9 @@
 ;; Indent function
 ;; 
 (defun at-indent-line ()
-  ())
+  (interactive)
+  (progn
+    (indent-to 2)))
 
 (defun at-mode ()
   "AmbientTalk-mode"
@@ -74,9 +77,7 @@
   (make-local-variable 'indent-line-function)
   (setq indent-line-function 'at-indent-line)
   (run-mode-hooks 'at-mode-hook)
+  (message (concat mode-name " loaded."))
 )
-
-
-
 
 (provide 'at-mode)
