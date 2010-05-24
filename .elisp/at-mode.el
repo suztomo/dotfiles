@@ -29,15 +29,6 @@
     st)
   "Syntax table used while in `at-mode'.")
 
-(defvar at-mode-syntax-alist
-  (list
-   (cons ?\" ".   ")
-   (cons ?\\ ".   ")
-   (cons ?\  " ")
-   (cons ?$ "(^")
-   (cons ?^ ")$")
-   (cons ?/ ". 14")))
-
 (defvar at-language-keywords
   (list "def" "import" "super"))
 
