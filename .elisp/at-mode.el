@@ -63,7 +63,13 @@
   (set-syntax-table at-mode-syntax-table)
 )
 
+(defun make-keyword-face-pair (name)
+  (cons name font-lock-keyword-face))
 
+(defun make-builtin-face-pair (name)
+  (cons (concat name ":") font-lock-builtin-face))
+
+(mapcar 'make-keyword-face-pair at-language-keywords)
 
 
 (defun at-mode ()
@@ -73,11 +79,14 @@
         mode-name "at-mode")
   (use-local-map *at-mode-map*)
   (set-syntax-table at-mode-syntax-table)
-  (let ((at-mode-font-lock-keywords
-         '(("def" . font-lock-keyword-face)
-           ("if:" . font-lock-builtin-face)
-           ("object:" . font-lock-builtin-face)
-         )))
+  (let* ((language-keywords
+         (mapcar 'make-keyword-face-pair
+                  at-language-keywords))
+        (language-builtins
+         (mapcar 'make-builtin-face-pair
+                  at-language-builtins))
+        (at-mode-font-lock-keywords
+          (append language-keywords language-builtins)))
 
     (setq font-lock-defaults
           `(,at-mode-font-lock-keywords ; keywords
@@ -85,7 +94,6 @@
             t ; case-fold
             nil ; syntax-alist
             nil))) ;syntax-begin
-
 )
 
 
