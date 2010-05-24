@@ -9,12 +9,14 @@
 ;; C-h to backspace
 ;;(global-set-key "\C-h" 'delete-backward-char)
 
-;;(setq auto-mode-alist (cons '("??.ml??w?" . tuareg-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '("??.ml??w?" . tuareg-mode) auto-mode-alist))
 (autoload 'tuareg-mode "tuareg" "Major mode for editing Caml code" t)
 (autoload 'camldebug "camldebug" "Run the Caml debugger" t)
 
 (setq auto-mode-alist (cons '("??.pde" . java-mode) auto-mode-alist))
 
+(setq auto-mode-alist
+   (cons '("\\.pde$" . java-mode) auto-mode-alist))
 
 (line-number-mode t)
 ;(column-number-mode nil)
@@ -63,6 +65,10 @@
       (set-frame-parameter nil 'fullscreen nil)
     (set-frame-parameter nil 'fullscreen 'fullboth)))
 
+(defun tm ()
+  (interactive)
+  (toggle-max-window))
+
 ;; Carbon Emacsの設定で入れられた
 (custom-set-variables
  '(display-time-mode t)
@@ -95,8 +101,8 @@
 
 
 ;; Yatex Mode
-(setq auto-mode-alist (cons '("\\.tex$" . yatex-mode) auto-mode-alist))
-(add-hook 'yatex-mode-hook' (lambda () (setq auto-fill-function nil)))
+;;(setq auto-mode-alist (cons '("\\.tex$" . yatex-mode) auto-mode-alist))
+;;(add-hook 'yatex-mode-hook' (lambda () (setq auto-fill-function nil)))
 
 
 ;; Smooth down key
@@ -169,7 +175,7 @@
 ;(load "init-cpp")
 ;(load "init-autosave-enhanced")
 (load "init-autosave")
-(load "init-auto-complete")
+;(load "init-auto-complete")
 (load "init-anything")
 (load "init-revive")
 ;(load "init-html")
@@ -181,8 +187,13 @@
 ;(load "less")
 (load "init-spell")
 (load "init-view")
+<<<<<<< HEAD
 (load "init-yasnippet")
 ;; (load "init-c")
+=======
+;(load "init-yasnippet")
+(load "init-c")
+>>>>>>> 5456972993fb7b0f6abb3b2f2d1360e985582f38
 
 (require 'linum)
 
@@ -280,3 +291,38 @@
     (copy-region-as-kill-nomark (point-min) (point-max))
     )
 )
+
+
+
+; Window resizer
+; http://d.hatena.ne.jp/mooz/20100119/p1
+(defun window-resizer ()
+  "Control window size and position."
+  (interactive)
+  (let ((window-obj (selected-window))
+        (current-width (window-width))
+        (current-height (window-height))
+        (dx (if (= (nth 0 (window-edges)) 0) 1
+              -1))
+        (dy (if (= (nth 1 (window-edges)) 0) 1
+              -1))
+        c)
+    (catch 'end-flag
+      (while t
+        (message "size[%dx%d]"
+                 (window-width) (window-height))
+        (setq c (read-char))
+        (cond ((= c ?l)
+               (enlarge-window-horizontally dx))
+              ((= c ?h)
+               (shrink-window-horizontally dx))
+              ((= c ?j)
+               (enlarge-window dy))
+              ((= c ?k)
+               (shrink-window dy))
+              ;; otherwise
+              (t
+               (message "Quit")
+               (throw 'end-flag t)))))))
+(global-set-key "\C-c\C-r" 'window-resizer)
+

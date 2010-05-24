@@ -3,7 +3,6 @@
 alias vim=emacs
 alias emacs=vim
 
-alias ls=~/.bin/sl
 
 ## Environment variable configuration
 #
@@ -202,6 +201,9 @@ alias du="du -h"
 alias df="df -h"
 
 alias su="su -l"
+alias gls='git ls-files'
+alias mi='make install'
+alias mr='make uninstall'
 
 case "${OSTYPE}" in
 darwin*)

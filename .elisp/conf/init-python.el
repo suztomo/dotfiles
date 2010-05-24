@@ -52,7 +52,19 @@
 
 (setq py-indent-offset 4)
 
+;(add-hook 'python-mode-hook
+;          (function (lambda ()
+;                      (setq tab-width py-indent-offset)
+;                      )))
+
+;(add-hook 'python-mode-hook
+;          (function (lambda ()
+;                      (setq tab-width py-indent-offset)
+;                      (setq indent-tabs-mode t))))
+
 (add-hook 'python-mode-hook
-          (function (lambda ()
-                      (setq tab-width py-indent-offset)
-                      )))
+      '(lambda()
+         (setq indent-tabs-mode t)
+         (setq indent-level 4)
+         (setq python-indent 4)
+         (setq tab-width 4)))

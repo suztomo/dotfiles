@@ -21,6 +21,6 @@ set incsearch
 set hlsearch
 nnoremap i <ESC>:noh<CR>i
 nnoremap <space>w :w<CR>
-
+syntax on
 
 
