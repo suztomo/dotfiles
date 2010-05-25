@@ -6,7 +6,7 @@
 (eval-when-compile (require 'cl))
 
 
-(defcustom at-indent-level 2
+(defcustom at-indent-level 4
   "*Indentation of AmbientTalk statements with respect to containing block."
   :type 'integer
   :group 'at-indentation-details)
@@ -118,8 +118,6 @@
   "Returns character at the position."
   (string-to-char (substring str pos (+ 1 pos))))
 
-(at-find-the-first-open-brace "{}")
-
 (defun at-find-the-first-open-brace (twochars)
   "Finds position of the most nearest open brace, return nil if no such brace."
   (save-excursion
@@ -138,6 +136,7 @@
                           "]")))
       (while loop-do-flag
         (progn
+          (message (number-to-string (point)))
           (setq p (re-search-backward regexp nil t))
           (cond
            ((eq nil p) ; reaches the beginning of buffer
@@ -161,6 +160,18 @@
         (message "found open brace")
         (goto-char p)))))
 
+(defun at-indent-to (num)
+  (let (start end)
+    (progn
+      (save-excursion
+        (progn
+          (beginning-of-line)
+          (setq start (point))
+          (back-to-indentation)
+          (setq end (point))))
+      (delete-region start end)))
+  (indent-to num))
+
 (defun at-indent-close-brace-line ()
   (message "indent-close-brace-line")
   (let ((p (at-find-the-first-open-brace "{}"))
@@ -170,17 +181,63 @@
       (progn
         (save-excursion (goto-char p)
                         (setq ci (current-indentation)))
-        (indent-to ci)
+        (at-indent-to ci)
         t))))
 
 ;; find the last open braces
-
-
 (defun at-indent-close-paren-line ()
-  (message "indent-close-brace-line"))
+  (message "indent-close-brace-line")
+  (let ((p (at-find-the-first-open-brace "()"))
+        lbp)
+    (if (eq nil p)
+        nil
+      (progn
+        (save-excursion (goto-char p)
+                        (setq lbp (current-column)))
+        (at-indent-to (+ lbp 1))
+        t))))
 
 (defun at-open-bracket-in-prev-line ()
-  ?\()
+  (let ((loop-do-flag t)
+        (bpl 0)
+        (ret nil)
+        (c 0)
+        (c0 0) ; for (
+        (c1 0) ; for [
+        (c2 0) ; for {
+        p)
+    (progn
+      (save-excursion
+        (forward-line -1)
+        (beginning-of-line)
+        (setq bpl (point)))
+      (save-excursion
+        (beginning-of-line)
+        (while loop-do-flag
+          ; ??? [\(\)\{\}\[\]] ???
+          (setq p (re-search-backward "[\(\)\{\}]" bpl t))
+          (setq c (+ c 1))
+          (if (eq nil p)
+              (setq loop-do-flag nil)
+            (progn
+              (cond
+               ((> c 10) (progn (message "baka") (setq loop-do-flag nil)))
+               ((char-equal ?\( (char-after))
+                (if (= 0 c0) (progn (setq ret ?\() (setq loop-do-flag nil))
+                  (setq c0 (- c0 1))))
+               ((char-equal ?\[ (char-after))
+                (if (= 0 c1) (progn (setq ret ?\[) (setq loop-do-flag nil))
+                  (setq c1 (- c1 1))))
+               ((char-equal ?\{ (char-after)) 
+                (if (= 0 c2) (progn (setq ret ?\{) (setq loop-do-flag nil))
+                  (setq c2 (- c2 1))))
+               ((char-equal ?\) (char-after)) (setq c0 (+ c0 1)))
+               ((char-equal ?\] (char-after)) (setq c1 (+ c1 1)))
+               ((char-equal ?\} (char-after)) (setq c2 (+ c2 1)))
+               (t (message "invalid regexp matching")))
+              (goto-char (- p 0)))
+          ))
+    ret))))
 
 (defun at-indent-as-previous-paren ()
   (message "indent-as-previous-line"))
@@ -192,11 +249,60 @@
   (interactive)
   (save-excursion
     (back-to-indentation)
-    (message (char-to-string (char-after)))
     (char-after)))
 
 (defun at-in-comment-p ()
   nil)
+
+(defun at-indent-as-prev-line ()
+  "Indents as the same previous line"
+  (message "at-indent-as-prev-line")
+  (let (i)
+    (progn
+      (save-excursion
+        (forward-line -1)
+        (setq i (current-indentation)))
+      (at-indent-to i))))
+
+(defun at-indent-as-prev-bracket ()
+  "Indents as the same previous line"
+  (message "at-indent-as-prev-paren")
+  (let (i p)
+    (progn
+      (save-excursion
+        (beginning-of-line)
+        (setq p (at-find-the-first-open-brace "[]"))
+        (if (eq nil p)
+            (message "cannot find bracket...")
+          (progn (goto-char p)
+                 (setq i (current-column)))))
+      (at-indent-to (+ 1 i)))))
+
+
+(defun at-indent-as-prev-paren ()
+  "Indents as the same previous line"
+  (message "at-indent-as-prev-paren")
+  (let (i p)
+    (progn
+      (save-excursion
+        (beginning-of-line)
+        (setq p (at-find-the-first-open-brace "()"))
+        (if (eq nil p)
+            (message "cannot find brace...")
+          (progn (goto-char p)
+                 (setq i (current-column)))))
+      (at-indent-to (+ 1 i)))))
+
+
+(defun at-indent-prev-line-plus1 ()
+  "Indents as the same previous line"
+  (message "at-indent-prev-line-plus1")
+  (let (i)
+    (progn
+      (save-excursion
+        (forward-line -1)
+        (setq i (current-indentation)))
+      (at-indent-to (+ at-indent-level i)))))
 
 
 (defun at-indent-line ()
@@ -210,15 +316,17 @@
        ((char-equal ?\) fc) (at-indent-close-paren-line))
        (t (let ((first-open-bracket (at-open-bracket-in-prev-line)))
             (cond
-             ((eq nil first-open-bracket) (at-indent-as-previous-line))
-             ((char-equal ?\( first-open-bracket) (at-indent-as-previous-paren))
-             ((char-equal ?\{ first-open-bracket) (at-indent-add-previous-brace-line))
+             ((eq nil first-open-bracket)
+              (progn (message "no open paren in prevline" (at-indent-as-prev-line))))
+             ((char-equal ?\( first-open-bracket) (at-indent-as-prev-paren))
+             ((char-equal ?\{ first-open-bracket) (at-indent-prev-line-plus1))
+             ((char-equal ?\[ first-open-bracket) (at-indent-as-prev-bracket))
              (t (message "invalid char of first-open-bracket"))))))))
-  )
+  (back-to-indentation))
+
 
 
 (setq at-local-map (make-keymap))
-(define-key at-local-map "h" 'backward-char)
 (define-key at-local-map "\C-ci" 'at-indent-line)
 
 (defun at-mode ()
