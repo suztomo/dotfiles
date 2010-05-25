@@ -9,7 +9,7 @@
 ;; C-h to backspace
 ;;(global-set-key "\C-h" 'delete-backward-char)
 
-(setq auto-mode-alist (cons '("??.ml??w?" . tuareg-mode) auto-mode-alist))
+; (setq auto-mode-alist (cons '("??.ml??w?" . tuareg-mode) auto-mode-alist))
 (autoload 'tuareg-mode "tuareg" "Major mode for editing Caml code" t)
 (autoload 'camldebug "camldebug" "Run the Caml debugger" t)
 
@@ -322,3 +322,9 @@
                (throw 'end-flag t)))))))
 (global-set-key "\C-c\C-r" 'window-resizer)
 
+
+(add-hook 'lisp-mode-hook
+          '(lambda ()
+             (progn
+               (message "lisp-mode-hook")
+               (local-set-key "\C-cb" 'eval-buffer))))

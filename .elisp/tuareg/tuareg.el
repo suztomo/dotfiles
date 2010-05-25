@@ -2041,86 +2041,86 @@ Returns t iff skipped to indentation."
 (defconst tuareg-find-module-regexp
   (tuareg-make-find-kwop-regexp "\\<module\\>"))
 (defun tuareg-find-module ()
-  (tuareg-find-kwop tuareg-find-module-regexp))
+   (tuareg-find-kwop tuareg-find-module-regexp))
 
 (defun tuareg-modify-syntax ()
-  "Switch to modified internal syntax."
-  (modify-syntax-entry ?. "w" tuareg-mode-syntax-table)
-  (modify-syntax-entry ?_ "w" tuareg-mode-syntax-table))
+   "Switch to modified internal syntax."
+   (modify-syntax-entry ?. "w" tuareg-mode-syntax-table)
+   (modify-syntax-entry ?_ "w" tuareg-mode-syntax-table))
 
 (defun tuareg-restore-syntax ()
-  "Switch back to interactive syntax."
-  (modify-syntax-entry ?. "." tuareg-mode-syntax-table)
-  (modify-syntax-entry ?_ "_" tuareg-mode-syntax-table))
+   "Switch back to interactive syntax."
+   (modify-syntax-entry ?. "." tuareg-mode-syntax-table)
+   (modify-syntax-entry ?_ "_" tuareg-mode-syntax-table))
 
 (defun tuareg-indent-command (&optional from-leading-star)
-  "Indent the current line in Tuareg mode.
+   "Indent the current line in Tuareg mode.
 
 Compute new indentation based on Caml syntax."
-  (interactive "*")
-    (if (not from-leading-star)
-	(tuareg-auto-fill-insert-leading-star))
-  (let ((case-fold-search nil))
-    (tuareg-modify-syntax)
-    (save-excursion
-      (back-to-indentation)
-      (indent-line-to (tuareg-compute-indent)))
-    (if (tuareg-in-indentation-p) (back-to-indentation))
-    (tuareg-restore-syntax)))
+   (interactive "*")
+   (if (not from-leading-star)
+	  (tuareg-auto-fill-insert-leading-star))
+   (let ((case-fold-search nil))
+        (tuareg-modify-syntax)
+        (save-excursion
+           (back-to-indentation)
+           (indent-line-to (tuareg-compute-indent)))
+        (if (tuareg-in-indentation-p) (back-to-indentation))
+        (tuareg-restore-syntax)))
 
 (defun tuareg-compute-indent ()
-  (save-excursion
-    (cond
-     ((tuareg-in-comment-p)
+   (save-excursion
       (cond
-       ((looking-at "(\\*")
-	(if tuareg-indent-leading-comments
-	    (save-excursion
-	      (while (and (progn (beginning-of-line)
-				 (> (point) 1))
-			  (progn (forward-line -1)
-				 (back-to-indentation)
-				 (tuareg-in-comment-p))))
-	      (if (looking-at "[ \t]*$")
-		  (progn
-		    (tuareg-skip-blank-and-comments)
-		    (if (or (looking-at "$") (tuareg-in-comment-p))
-			0
-		      (tuareg-compute-indent)))
-		(forward-line 1)
-		(tuareg-compute-normal-indent)))
-	  (current-column)))
-       ((looking-at "\\*\\**)")
-	(tuareg-beginning-of-literal-or-comment-fast)
-	(if (tuareg-leading-star-p)
-	    (+ (current-column)
-	       (if (save-excursion
-		     (forward-line 1)
-		     (back-to-indentation)
-		     (looking-at "*")) 1
-		 tuareg-comment-end-extra-indent))
-	  (+ (current-column) tuareg-comment-end-extra-indent)))
-       (tuareg-indent-comments
-	(let ((star (and (tuareg-leading-star-p)
-			 (looking-at "\\*"))))
-	  (tuareg-beginning-of-literal-or-comment-fast)
-	  (if star (re-search-forward "(") (re-search-forward "(\\*+[ \t]*"))
-	  (current-column)))
-       (t (current-column))))
-     ((tuareg-in-literal-p)
-      (current-column))
-     ((looking-at "\\<let\\>")
-      (if (tuareg-looking-at-expression-let)
-	  (if (tuareg-looking-at-in-let)
-	      (progn
-		(tuareg-find-meaningful-word)
-		(tuareg-find-in-match)
-		(tuareg-back-to-paren-or-indentation)
-		(current-column))
-	    (tuareg-compute-normal-indent))
-	(tuareg-find-phrase-indentation)))
-     ((looking-at tuareg-governing-phrase-regexp-with-break)
-      (tuareg-find-phrase-indentation))
+         ((tuareg-in-comment-p)
+            (cond
+               ((looking-at "(\\*")
+	              (if tuareg-indent-leading-comments
+	                 (save-excursion
+	                    (while (and (progn (beginning-of-line)
+				                       (> (point) 1))
+			                      (progn (forward-line -1)
+				                     (back-to-indentation)
+				                     (tuareg-in-comment-p))))
+	                    (if (looking-at "[ \t]*$")
+		                   (progn
+		                      (tuareg-skip-blank-and-comments)
+		                      (if (or (looking-at "$") (tuareg-in-comment-p))
+			                     0
+		                         (tuareg-compute-indent)))
+		                   (forward-line 1)
+		                   (tuareg-compute-normal-indent)))
+	                 (current-column)))
+               ((looking-at "\\*\\**)")
+	              (tuareg-beginning-of-literal-or-comment-fast)
+	              (if (tuareg-leading-star-p)
+	                 (+ (current-column)
+	                    (if (save-excursion
+		                       (forward-line 1)
+		                       (back-to-indentation)
+		                       (looking-at "*")) 1
+		                   tuareg-comment-end-extra-indent))
+	                 (+ (current-column) tuareg-comment-end-extra-indent)))
+               (tuareg-indent-comments
+	              (let ((star (and (tuareg-leading-star-p)
+			                     (looking-at "\\*"))))
+	                   (tuareg-beginning-of-literal-or-comment-fast)
+	                             (if star (re-search-forward "(") (re-search-forward "(\\*+[ \t]*"))
+	                             (current-column)))
+               (t (current-column))))
+         ((tuareg-in-literal-p)
+            (current-column))
+         ((looking-at "\\<let\\>")
+            (if (tuareg-looking-at-expression-let)
+	           (if (tuareg-looking-at-in-let)
+	              (progn
+		             (tuareg-find-meaningful-word)
+		             (tuareg-find-in-match)
+		             (tuareg-back-to-paren-or-indentation)
+		             (current-column))
+	              (tuareg-compute-normal-indent))
+	           (tuareg-find-phrase-indentation)))
+         ((looking-at tuareg-governing-phrase-regexp-with-break)
+            (tuareg-find-phrase-indentation))
      ((and tuareg-sig-struct-align (looking-at "\\<\\(sig\\|struct\\)\\>"))
       (if (string= (tuareg-find-module) "module") (current-column)
 	(tuareg-back-to-paren-or-indentation)
