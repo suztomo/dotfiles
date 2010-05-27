@@ -189,6 +189,9 @@
 (load "init-view")
 ;(load "init-yasnippet")
 (load "init-c")
+(load "at-mode")
+
+(setq auto-mode-alist (cons '("??.at" . at-mode) auto-mode-alist))
 
 
 (require 'linum)

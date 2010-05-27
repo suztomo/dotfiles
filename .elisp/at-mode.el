@@ -32,10 +32,13 @@
   "Syntax table used while in `at-mode'.")
 
 (defvar at-language-keywords
-  (list "def" "import" "super"))
+  (list "deftype" "def " "import" "super"))
+
+;; http://www.delorie.com/gnu/docs/elisp-manual-21/elisp_367.html
 
 (defvar at-language-builtins
-  (list "if" "raise" "then" "when" "becomes" "try" "catch" "raise"))
+  (list "if" "raise" "then" "else" "when" "becomes" "try" "catch" "raise"
+        "foreach" "in" "whenever" "is" "taggedAs"))
 
 (defun at-make-keyword-face-pair (name)
   (cons name font-lock-keyword-face))
@@ -159,15 +162,6 @@
            ((char-equal chr-close (char-after)) ; close paren
             (setq c (+ 1 c))))))
       ret)))
-
-(defun hoge ()
-  (interactive)
-  (let ((p (at-find-the-first-open-brace "{}")))
-    (if (eq nil p)
-        (at-debug "cannot found...")
-      (progn
-        (at-debug "found open brace")
-        (goto-char p)))))
 
 (defun at-indent-to (num)
   (let (start end)
@@ -302,11 +296,6 @@
 (defun at-search-backward-unclosed-semi ()
   (re-search-backward ";" nil t))
 
-(defun hoge ()
-  (interactive)
-  (if (eq (at-in-white-char-line-p) t)
-      (at-debug "white line")
-    (at-debug "non white line")))
 
 (defun at-in-white-char-line-p ()
   (save-excursion
@@ -427,46 +416,6 @@
   (at-debug (number-to-string (point))))
 
 
-
-(defun at-indent-as-prev-semi ()
-  "Indents as the same as previous semicolon"
-  (at-debug "at-indent-as-prev-semi")
-  (let ((loop-do-flag t) (ret t) (i nil) (c 0) p )
-    (progn
-      (save-excursion
-        (beginning-of-line)
-        (at-search-backward-unclosed-semi)
-        (setq p (point))
-        (at-search-backward-unclosed-semi)
-        (while loop-do-flag
-          (progn
-            (forward-line 1)
-            (setq c (+ c 1))
-            (cond
-             ((> c 10)
-              (progn (setq loop-do-flag nil)
-                     (at-debug "ba-ka")
-                     (setq ret nil)))
-             ((> (point) p)
-              (progn
-                (at-debug "failed to seek next non-white char")
-                (setq loop-do-flag nil)))
-
-             ((at-in-white-char-line-p)
-              (progn
-                (at-debug "white line")
-                  (setq loop-do-flag t)))
-             (t (progn
-                  (at-debug "success to seek next non-white char")
-                  (setq loop-do-flag nil))))))
-        (if (eq ret t)
-            (progn
-              (at-debug (char-to-string (char-after)))
-              (setq i (current-indentation)))))
-      (if i
-        (at-indent-to i)))))
-
-
 (defun at-indent-as-prev-paren ()
   "Indents as the same previous line"
   (at-debug "at-indent-as-prev-paren")
@@ -480,18 +429,6 @@
           (progn (goto-char p)
                  (setq i (current-column)))))
       (at-indent-to (+ 1 i)))))
-
-
-(defun at-indent-prev-line-plus1 ()
-  "Indents as the same previous line"
-  (at-debug "at-indent-prev-line-plus1")
-  (let (i)
-    (progn
-      (save-excursion
-        (at-move-non-white-line-backward)
-        (setq i (current-indentation)))
-      (at-indent-to (+ at-indent-level i)))))
-
 
 (defun at-indent-line ()
   (interactive)
@@ -521,7 +458,7 @@
 
 
 (setq at-local-map (make-keymap))
-(define-key at-local-map "\C-ci" 'at-indent-line)
+;(define-key at-local-map "\C-ci" 'at-indent-line)
 
 (defun at-mode ()
   "AmbientTalk-mode"
@@ -554,7 +491,4 @@
 )
 
 (provide 'at-mode)
-
-
-
 
