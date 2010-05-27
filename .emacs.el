@@ -330,4 +330,5 @@
           '(lambda ()
              (progn
                (message "lisp-mode-hook")
-               (local-set-key "\C-cb" 'eval-buffer))))
+               (local-set-key "\C-cb" 'eval-buffer)
+               (local-set-key "\C-ct" 'at-mode-test-indent-run))))

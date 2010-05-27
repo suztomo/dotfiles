@@ -1,4 +1,4 @@
-;-*-Lisp-*-
+                                        ;-*-Lisp-*-
 ;; AmbientTalk-mode Version 0
 ;; http://beta-reduction.blogspot.com/2010/01/blog-post.html
 ;; For major mode coding conventions, see
@@ -22,12 +22,12 @@
 
 (defvar at-mode-syntax-table
   (let ((st (make-syntax-table)))
-   (modify-syntax-entry ?\" "\"" st)
-   (modify-syntax-entry ?\  " " st)
-   (modify-syntax-entry ?^ "(^" st)
-   (modify-syntax-entry ?$ ")$" st)
-   (modify-syntax-entry ?/ ". 124b" st)
-   (modify-syntax-entry ?* ". 23" st)
+    (modify-syntax-entry ?\" "\"" st)
+    (modify-syntax-entry ?\  " " st)
+    (modify-syntax-entry ?^ "(^" st)
+    (modify-syntax-entry ?$ ")$" st)
+    (modify-syntax-entry ?/ ". 124b" st)
+    (modify-syntax-entry ?* ". 23" st)
     st)
   "Syntax table used while in `at-mode'.")
 
@@ -46,7 +46,7 @@
 (defun at-make-builtin-face-pair (name)
   (cons (concat name ":") font-lock-builtin-face))
 
-(defvar at-mode-debug t)
+(setq at-mode-debug nil)
 
 (defun at-debug (msg)
   (if at-mode-debug
@@ -98,13 +98,6 @@
 ;; --- tables
 ;; def t := [a, b, 
 ;;           c, d];
-;; --- closure as parameter
-;; operation({|arg|
-;;     op1({|arg2|
-;;          someop2(tako
-;;                  );
-;;          someop3();});
-;; });
 ;; 
 ;; Algorithms
 ;; if the head cursor is '}'
@@ -127,9 +120,9 @@
   "Returns character at the position."
   (string-to-char (substring str pos (+ 1 pos))))
 
-; 
-; abc((()) and "()" => 3
-;
+                                        ; 
+                                        ; abc((()) and "()" => 3
+                                        ;
 (defun at-find-the-first-open-brace (twochars)
   "Position of the most nearest open brace, return nil if no such brace."
   (save-excursion
@@ -139,7 +132,7 @@
           (ret nil)
           (chr-open (at-char-at twochars 0))
           (chr-close (at-char-at twochars 1))
-          ; regexp will be "[\(\)]"
+                                        ; regexp will be "[\(\)]"
           (regexp (concat "["
                           "\\"
                           (substring twochars 0 1)
@@ -148,14 +141,13 @@
                           "]")))
       (while loop-do-flag
         (progn
-          (at-debug (number-to-string (point)))
           (setq p (re-search-backward regexp nil t))
           (cond
-           ((eq nil p) ; reaches the beginning of buffer
+           ((eq nil p)               ; reaches the beginning of buffer
             (progn (setq ret nil) (setq loop-do-flag nil)))
            ((char-equal chr-open (char-after)) 
-            (if (= c 0) ; open paren
-                (progn ; success
+            (if (= c 0)                 ; open paren
+                (progn                  ; success
                   (setq loop-do-flag nil)
                   (setq ret (point)))
               (setq c (- 1 c))))
@@ -175,9 +167,9 @@
       (delete-region start end)))
   (indent-to num))
 
-; somebraces( object:{
-;     def hoge()
-;
+                                        ; somebraces( object:{
+                                        ;     def hoge()
+                                        ;
 (defun at-indent-close-brace-line ()
   "Indents add plus 1"
   (at-debug "indent-close-brace-line")
@@ -191,8 +183,8 @@
         (at-indent-to ci)
         t))))
 
-; somefunc(a
-;          b);
+                                        ; somefunc(a
+                                        ;          b);
 (defun at-indent-close-paren-line ()
   "Finds the last open braces, and indent to it"
   (at-debug "indent-close-brace-line")
@@ -211,7 +203,7 @@
 
 (defun at-open-bracket-in-prev-line ()
   "Bracket of previous line"
-  ; hoge() { () => ?\{
+                                        ; hoge() { () => ?\{
   (save-excursion
     (let ((p (at-point-of-open-bracket-in-prev-line)))
       (if (eq nil p) nil
@@ -220,12 +212,12 @@
 
 (defun at-point-of-open-bracket-in-prev-line ()
   "Point of the open bracket in previous line"
-  ; a{}{() => 3
+                                        ; a{}{() => 3
   (at-point-of-unclosed-bracket-in-prev-line ?\( ?\) ?\[ ?\] ?\{ ?\}))
 
 (defun at-point-of-close-bracket-in-prev-line ()
   "Point of the close bracket in previous line"
-  ; ai)(){ => 2
+                                        ; ai)(){ => 2
   (at-point-of-unclosed-bracket-in-prev-line ?\) ?\( ?\] ?\[ ?\} ?\{))
 
 (defun at-point-of-unclosed-bracket-in-prev-line (a-op a-cl b-op b-cl c-op c-cl)
@@ -233,9 +225,9 @@
         (bpl 0)
         (ret nil)
         (c 0)
-        (c0 0) ; for (
-        (c1 0) ; for [
-        (c2 0) ; for {
+        (c0 0)                          ; for (
+        (c1 0)                          ; for [
+        (c2 0)                          ; for {
         p)
     (progn
       (save-excursion
@@ -243,7 +235,7 @@
         (setq bpl (point))
         (forward-line 1)
         (while loop-do-flag
-          ; ??? [\(\)\{\}\[\]] ???
+                                        ; ??? [\(\)\{\}\[\]] ???
           (setq p (re-search-backward "[\(\)\{\}]" bpl t))
           (setq c (+ c 1))
           (if (eq nil p)
@@ -312,23 +304,20 @@
   (let ((loop-do-flag t) (c 0))
     (progn
       (while loop-do-flag
-      (progn
-        (forward-line -1)
-        (setq c (+ c 1))
-        (cond
-         ((bobp)
-          (progn (setq loop-do-flag nil)))
-         ((> c 1000)
-          (progn (setq loop-do-flag nil)
-                 (at-debug "ba-ka")))
-         ((at-in-white-char-line-p)
-          (progn
-            (at-debug "white line")
-            (setq loop-do-flag t)))
-         (t (progn
-              (at-debug "success to seek next non-white char")
-              (setq loop-do-flag nil)))))
-      (beginning-of-line)))))
+        (progn
+          (forward-line -1)
+          (setq c (+ c 1))
+          (cond
+           ((bobp)
+            (progn (setq loop-do-flag nil)))
+           ((> c 1000)
+            (progn (setq loop-do-flag nil)))
+           ((at-in-white-char-line-p)
+            (progn
+              (setq loop-do-flag t)))
+           (t (progn
+                (setq loop-do-flag nil)))))
+        (beginning-of-line)))))
 
 (defun at-line-head-p ()
   (let ((p (point)))
@@ -336,41 +325,64 @@
       (back-to-indentation)
       (eq p (point)))))
 
-; aa(aa)() and (lambda () (char-equal ?a (char-after))) => move to the 1
-; 
-(defun at-search-backward-unclosed-cond (cond-p &optional limit)
+                                        ; aa(aa)() and (lambda () (char-equal ?a (char-after))) => move to the 1
+                                        ; 
+
+(defun at-search-backward-unclosed-cond (cond-p &optional limit cond-first)
   "Moves back to the chr that is not closed."
   (if (eq limit nil)
       (setq limit 0))
-  (let ((c0 0) ; for (
-        (c1 0) ; for {
-        (c2 0) ; for [
+  (let ((c0 0)                          ; for (
+        (c1 0)                          ; for {
+        (c2 0)                          ; for [
         (loop-do-flag t)
         a b)
     (progn
       (while loop-do-flag
         (progn
-          (backward-char)
+          (if (bobp)
+            (setq loop-do-flag nil)
+            (backward-char))
+;          (message (string (char-after)))
+;          (message (format "%c(%d): %d %d %d" (char-after) (point) c0 c1 c2))
           (cond
-           ((< (point) limit)
-            (progn (setq loop-do-flag nil)))
-           ((and (<= c0 0)
+           ((and cond-first
+                 (<= c0 0)
                  (<= c1 0)
                  (<= c2 0)
                  (funcall cond-p))
+            (progn 
+;              (message "satisfied") 
+              (setq loop-do-flag nil)))
+;
+; b m2() {
+;     c: {}
+;
+           ((<= (point) limit)
             (progn (setq loop-do-flag nil)))
+           ((char-equal (char-after) ?\()
+            (progn (setq c0 (if (> c0 0) (- c0 1) 0))))
+           ((char-equal (char-after) ?\{)
+            (progn (setq c1 (if (> c1 0) (- c1 1) 0))))
+           ((char-equal (char-after) ?\[)
+            (progn (setq c2 (if (> c2 0) (- c2 1) 0))))
+; hoge
+;   );
+; fuga
            ((char-equal (char-after) ?\))
             (progn (setq c0 (+ c0 1))))
            ((char-equal (char-after) ?\})
             (progn (setq c1 (+ c1 1))))
            ((char-equal (char-after) ?\])
             (progn (setq c2 (+ c2 1))))
-           ((char-equal (char-after) ?\()
-            (progn (setq c0 (- c0 1))))
-           ((char-equal (char-after) ?\{)
-            (progn (setq c1 (- c1 1))))
-           ((char-equal (char-after) ?\[)
-            (progn (setq c2 (- c2 1))))))))))
+           ((and (<= c0 0)
+                 (<= c1 0)
+                 (<= c2 0)
+                 (funcall cond-p))
+            (progn
+;              (message "satisfied")
+              (setq loop-do-flag nil)))
+           ))))))
 
 
 (defun at-search-backward-unclosed-line-head ()
@@ -395,19 +407,17 @@
       (setq a (current-indentation)))
     (at-indent-to (+ at-indent-level a))))
 
-;
-; def func (object: { <-
-;    takotao
+                                        ;
+                                        ; def func (object: { <-
+                                        ;    takotao
 (defun at-indent-as-prev-unclosed-open-brace-line ()
   "Indents as prev unclosed open brace"
   (at-debug "at-indent-as-prev-unclosed-open-brace-line")
   (let (a)
     (save-excursion
       (at-search-backward-unclosed-cond
-       '(lambda () (char-equal ?\{ (char-after))))
-      (at-debug (number-to-string (point)))
+       '(lambda () (char-equal ?\{ (char-after))) nil t)
       (at-search-backward-unclosed-line-head)
-      (at-debug (number-to-string (point)))
       (setq a (current-indentation)))
     (at-indent-to a)))
 
@@ -434,61 +444,313 @@
   (interactive)
   (at-debug "at-indent-line")
   (if (at-in-comment-p) nil
-      (save-excursion
-        (beginning-of-line)
-        (let ((fc (at-first-char-in-line)))
-          (cond
-           ((and (numberp fc) (or (char-equal ?\} fc) (char-equal ?\) fc)))
-            (progn
-              (at-debug "first char in line is bracket")
+    (save-excursion
+      (beginning-of-line)
+      (let ((fc (at-first-char-in-line)))
+        (cond
+         ((and (numberp fc) (or (char-equal ?\} fc) (char-equal ?\) fc)))
+          (progn
+            (at-debug "first char in line is bracket")
+            (cond
+             ((char-equal ?\} fc) (at-indent-as-prev-unclosed-open-brace-line))
+             ((char-equal ?\) fc) (at-indent-close-paren-line)))))
+         (t (let ((first-open-bracket (at-open-bracket-in-prev-line)))
               (cond
-               ((char-equal ?\} fc) (at-indent-as-prev-unclosed-open-brace-line))
-               ((char-equal ?\) fc) (at-indent-close-paren-line)))))
-           (t (let ((first-open-bracket (at-open-bracket-in-prev-line)))
-                (cond
-                 ((eq nil first-open-bracket)
-                  (progn (at-debug "no open paren in prevline")
-                         (at-indent-as-prev-unclosed-line-head)))
-                 ((char-equal ?\( first-open-bracket) (at-indent-as-prev-paren))
-                 ((char-equal ?\{ first-open-bracket) (at-indent-prev-unclosed-line-head-plus1))
-                 ((char-equal ?\[ first-open-bracket) (at-indent-as-prev-bracket))
-                 (t (at-debug "invalid char of first-open-bracket"))))))))
+               ((eq nil first-open-bracket)
+                (progn (at-indent-as-prev-unclosed-line-head)))
+               ((char-equal ?\( first-open-bracket) (at-indent-as-prev-paren))
+               ((char-equal ?\{ first-open-bracket) (at-indent-prev-unclosed-line-head-plus1))
+               ((char-equal ?\[ first-open-bracket) (at-indent-as-prev-bracket))
+               (t (at-debug "invalid char of first-open-bracket"))))))))
     (back-to-indentation)))
 
 
+;;
+;; Test
+;;
+(defun at-mode-test-indentation ()
+  (let ((buffer (get-buffer-create "*’¥«’¥ì’¥ó’¥È’¥Ð’¥Ã’¥Õ’¥¡’¥Æ’¥¹’¥È*")))
+    (set-buffer buffer)
+    (insert "’¤Æ’¤¹’¤È’¤Æ’¤¹’¤È"))
+  (display-buffer (current-buffer)))
+
+;; (defun at-mode-indent-test-p (before after &optional comm)
+;;   "Runs indentation, returns nil if no error or indented text if error"
+;;   (if (eq nil comm) (setq comm 'at-indent-line))
+;;   (let ((indent-func-backup 'indent-line-function)
+;;         (buffer-backup (current-buffer))
+;;         (sandbox-buffer (get-buffer-create "*at-test-sandbox*"))
+;;         indented-text)
+;;     (save-excursion
+;;       (set-buffer sandbox-buffer)
+;;       (at-mode)
+;;       (insert before)
+;;       (setq indent-line-function comm)
+;;       (setq indent-region-function nil)
+;;       (indent-region (point-min) (point-max))
+;;       (setq indented-text (buffer-string))
+;;       (kill-buffer (current-buffer))
+;;       (set-buffer buffer-backup)
+;;       (if (string-equal indented-text after) nil
+;;         indented-text))))
+
+(defun at-mode-indent-test-p (before after &optional comm)
+  "Runs indentation, returns nil if no error or indented text if error"
+  (if (eq nil comm) (setq comm 'at-indent-line))
+  (at-mode-test-sandbox-cond-p
+   before
+   '(lambda ()
+      (progn
+        (setq indent-line-function 'at-indent-line)
+        (setq indent-region-function nil)
+        (indent-region (point-min) (point-max))))
+   '(lambda ()
+      (if (string-equal (buffer-string) after) nil
+        (buffer-string)))))
+
+
+
+(setq at-mode-indent-test-cases '(("
+when: hoge becomes: {|tako|
+opera(tako);
+}
+" "
+when: hoge becomes: {|tako|
+    opera(tako);
+}
+") ("
+when: hoge becomes: {|tako|
+op2};
+op3();
+" "
+when: hoge becomes: {|tako|
+    op2};
+op3();
+") ("
+func1(arg1, arg2
+arg3, arg4,
+  arg5);
+func2();
+" "
+func1(arg1, arg2
+      arg3, arg4,
+      arg5);
+func2();
+") ("
+def o := object: {
+         def func()
+}
+" "
+def o := object: {
+    def func()
+}
+") ("
+def obj := object: {
+
+def m1();}
+def obj2
+" "
+def obj := object: {
+
+    def m1();}
+def obj2
+") ("
+op1({|arg2|
+      someop2(tako
+       );
+    someop3();});
+" "
+op1({|arg2|
+    someop2(tako
+            );
+    someop3();});
+") ("
+operation({|arg|
+ op1({|arg2|
+      someop2(tako
+       );
+    someop3();});
+});
+" "
+operation({|arg|
+    op1({|arg2|
+        someop2(tako
+                );
+        someop3();});
+});
+") ("
+if: {
+  hoge
+       } else {
+     tako
+}
+if: (takotako) then: {fugafuga}
+    operation();
+" "
+if: {
+    hoge
+} else {
+    tako
+}
+if: (takotako) then: {fugafuga}
+operation();
+") ("
+func1(arg1, object: {
+def m1() {}
+def m2() {
+   object: {};
+}
+" "
+func1(arg1, object: {
+    def m1() {}
+    def m2() {
+        object: {};
+    }
+") ))
+
+(defun at-mode-test-indent-run-iter (case-list count)
+  (if case-list
+      (let* ((c (car case-list))
+             (before (car c))
+             (after (car (cdr c)))
+             (comm (car (cdr (cdr c))))
+             msg ret)
+        (progn
+          (setq msg (format "  test %d: " count))
+          (setq error (at-mode-indent-test-p before after comm))
+          (if (eq nil error) (setq msg (concat msg "passed."))
+            (progn
+              (setq msg (concat msg "FAILED.\n--- Before:" before "\n--- After:"
+                                error))))
+          (message msg)
+          (at-mode-test-indent-run-iter (cdr case-list) (+ count 1))))))
+
+(defun at-mode-test-indent-run ()
+  "Runs indentation tests"
+  (interactive)
+  (message "AmbientTalk mode indentation tests")
+  (at-mode-test-indent-run-iter at-mode-indent-test-cases 0))
+
+
+(defun at-mode-test-sandbox (txt comm)
+  "Runs the command in sandbox, returns the result"
+  (let ((buffer-backup (current-buffer))
+        (sandbox-buffer (get-buffer-create "*at-test-sandbox*"))
+        modified-text ret)
+    (save-excursion
+      (set-buffer sandbox-buffer)
+      (at-mode)
+      (insert txt)
+      (setq ret (funcall comm))
+      (kill-buffer (current-buffer))
+      (set-buffer buffer-backup)
+      ret)))
+
+(defun at-mode-test-sandbox-cond-p (txt comm1 cond-p)
+  (at-mode-test-sandbox txt '(lambda () (progn (funcall comm1) (funcall cond-p)))))
+
+
+(setq at-mode-sandbox-test-cases
+'((
+"abcd(
+  efgc()
+hijk"
+         (lambda () (progn (beginning-of-line) (at-search-backward-unclosed-line-head)))
+         (lambda () (char-equal ?e (char-after)))
+         ) (
+"abcd(xyz(
+  efgc)
+hijk"
+            (lambda () (progn (beginning-of-line) (at-search-backward-unclosed-line-head)))
+            (lambda () (char-equal ?a (char-after)))
+            ) (
+"op1({|arg2|
+      abc(tako
+       );
+    someop3();});"
+(lambda () (progn (beginning-of-line) (at-search-backward-unclosed-line-head)))
+(lambda () (char-equal ?a (char-after)))
+) (
+"
+    a m1() {}
+    b m2() {
+        c: {};
+        }"
+(lambda () (progn
+             (beginning-of-line)
+             (at-search-backward-unclosed-cond
+              '(lambda () (char-equal ?\{ (char-after))) nil t)))
+(lambda () (progn  (= 27 (point))))
+) (
+"if: {
+    hoge
+} else {
+        tako"
+(lambda () (progn
+             (beginning-of-line)
+             (at-search-backward-unclosed-line-head)))
+(lambda () (progn (message (concat "char:" (number-to-string (point)))) (= 1 (point))))
+)))
+
+
+(defun at-mode-sandbox-test-run-iter (case-list count)
+  (if case-list
+      (let* ((c (car case-list))
+             (txt (car c))
+             (comm (car (cdr c)))
+             (cond-p (car (cdr (cdr c))))
+             msg ret)
+        (progn
+          (setq msg (format "  test %d: " count))
+          (setq result (at-mode-test-sandbox-cond-p txt comm cond-p))
+          (if result (setq msg (concat msg "passed."))
+            (progn
+              (setq msg (concat msg "FAILED.\n--- Text:\n" txt))))
+          (message msg)
+          (at-mode-sandbox-test-run-iter (cdr case-list) (+ count 1))))))
+
+(defun at-mode-sandbox-test-run ()
+  (interactive)
+  (at-mode-sandbox-test-run-iter at-mode-sandbox-test-cases 0))
+
+
+(defun at-mode-test-run ()
+  (interactive)
+  (at-mode-test-indent-run)
+  (at-mode-sandbox-test-run))
 
 (setq at-local-map (make-keymap))
-;(define-key at-local-map "\C-ci" 'at-indent-line)
+                                        ;(define-key at-local-map "\C-ci" 'at-indent-line)
 
 (defun at-mode ()
   "AmbientTalk-mode"
   (interactive)
   (kill-all-local-variables)
   (setf major-mode 'at-mode
-        mode-name "AmbientTalk") ; used in minibuffer
+        mode-name "AmbientTalk")        ; used in minibuffer
   (use-local-map *at-mode-map*)
   (set-syntax-table at-mode-syntax-table)
   (let* ((language-keywords
-         (mapcar 'at-make-keyword-face-pair
+          (mapcar 'at-make-keyword-face-pair
                   at-language-keywords))
-        (language-builtins
-         (mapcar 'at-make-builtin-face-pair
+         (language-builtins
+          (mapcar 'at-make-builtin-face-pair
                   at-language-builtins))
-        (at-mode-font-lock-keywords
+         (at-mode-font-lock-keywords
           (append language-keywords language-builtins)))
 
     (setq font-lock-defaults
           `(,at-mode-font-lock-keywords ; keywords
-            nil ; keywords-only
-            t ; case-fold
-            nil ; syntax-alist
-            nil))) ;syntax-begin
+            nil                         ; keywords-only
+            t                           ; case-fold
+            nil                         ; syntax-alist
+            nil)))                      ;syntax-begin
   (make-local-variable 'indent-line-function)
   (setq indent-line-function 'at-indent-line)
   (use-local-map at-local-map)
   (run-mode-hooks 'at-mode-hook)
   (at-debug (concat mode-name " loaded."))
-)
+  )
 
 (provide 'at-mode)
 
