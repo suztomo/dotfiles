@@ -55,49 +55,7 @@
 
 ;; Indent function
 ;; Goal:
-;; --- braces
-;; when: hoge becomes: {|tako|
-;;     opera(tako);
-;; }
-;; --- one line keyword function
-;; when: tako becomes: {|tako| niko} except: { fuga };
-;; operation(tako);
 ;; -- nested def braces
-;; def a() {
-;;     fuga
-;;     def o := object: {}
-;;     def p := object: {
-;;         def tako() {
-;;             operation();
-;;         }
-;;     }
-;; }
-;; --- arguments and parameters
-;; def func(hoge, fuga, tako,
-;;          uma, niko) {
-;;      opera(niko, pass, fuga,
-;;            meko, tako);
-;; }
-;; --- nested keyword function braces
-;; when: hoge becomes: {|tako|
-;;     when: hoge becomes: {|tako|
-;;         opera(tako);
-;;         when: hoge becomes: {|tako|
-;;             opera(tako);
-;;         }
-;;     }
-;; }
-;; --- if then else
-;; if: {
-;;     hoge
-;; } else {
-;;     tako
-;; }
-;; if: (takotako) then: {fugafuga}
-;; operation();
-;; --- tables
-;; def t := [a, b, 
-;;           c, d];
 ;; 
 ;; Algorithms
 ;; if the head cursor is '}'
@@ -243,6 +201,7 @@
             (progn
               (cond
                ((> c 10) (progn (at-debug "baka") (setq loop-do-flag nil)))
+
                ((char-equal a-op (char-after))
                 (if (= 0 c0) (progn (setq ret (point)) (setq loop-do-flag nil))
                   (setq c0 (- c0 1))))
@@ -324,9 +283,6 @@
     (save-excursion
       (back-to-indentation)
       (eq p (point)))))
-
-                                        ; aa(aa)() and (lambda () (char-equal ?a (char-after))) => move to the 1
-                                        ; 
 
 (defun at-search-backward-unclosed-cond (cond-p &optional limit cond-first)
   "Moves back to the chr that is not closed."
@@ -606,7 +562,61 @@ func1(arg1, object: {
     def m2() {
         object: {};
     }
+") ("
+def a() {
+  fuga
+   def o := object: {}
+def p := object: {
+           def tako() {
+              operation();
+}}
+}
+" "
+def a() {
+    fuga
+    def o := object: {}
+    def p := object: {
+        def tako() {
+            operation();
+        }}
+}
+") ("
+def func(hoge, fuga, tako,
+      uma, niko) {
+    opera(niko, pass, fuga,
+     meko, tako);
+}
+" "
+def func(hoge, fuga, tako,
+         uma, niko) {
+    opera(niko, pass, fuga,
+          meko, tako);
+}
+") ("
+when: hoge becomes: {|tako|
+when: hoge becomes: {|tako|
+       opera(tako);
+     when: hoge becomes: {|tako|
+      opera(tako);
+     }
+  }
+" "
+when: hoge becomes: {|tako|
+    when: hoge becomes: {|tako|
+        opera(tako);
+        when: hoge becomes: {|tako|
+            opera(tako);
+        }
+    }
+") ("
+def t := [a, b, 
+c, d];
+" "
+def t := [a, b, 
+          c, d];
 ") ))
+
+
 
 (defun at-mode-test-indent-run-iter (case-list count)
   (if case-list
@@ -689,7 +699,7 @@ hijk"
 (lambda () (progn
              (beginning-of-line)
              (at-search-backward-unclosed-line-head)))
-(lambda () (progn (message (concat "char:" (number-to-string (point)))) (= 1 (point))))
+(lambda () (progn (= 1 (point))))
 )))
 
 
@@ -711,6 +721,7 @@ hijk"
 
 (defun at-mode-sandbox-test-run ()
   (interactive)
+  (message "AmbientTalk mode sandbox tests")
   (at-mode-sandbox-test-run-iter at-mode-sandbox-test-cases 0))
 
 
