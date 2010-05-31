@@ -12,8 +12,19 @@
   :group 'at-indentation-details)
 
 ;; keymap for at-mode
-(defvar *at-mode-map* (make-keymap))
+(defvar at-mode-map (make-keymap))
 
+(define-key at-mode-map "}" 'at-electric-brace)
+
+
+
+(defun at-electric-brace ()
+  "Inserts curly brace and Indents the line"
+  (interactive)
+  (insert "}")
+  (at-indent-line)
+  (forward-char)
+  )
 
 ;; Colors
 (defface fudef-face '((t (:foreground "white" :background
@@ -758,7 +769,7 @@ c, d]"
   (at-mode-test-indent-run)
   (at-mode-sandbox-test-run))
 
-(setq at-local-map (make-keymap))
+;(setq at-local-map (make-keymap))
                                         ;(define-key at-local-map "\C-ci" 'at-indent-line)
 
 (defun at-mode ()
@@ -767,7 +778,7 @@ c, d]"
   (kill-all-local-variables)
   (setf major-mode 'at-mode
         mode-name "AmbientTalk")        ; used in minibuffer
-  (use-local-map *at-mode-map*)
+  (use-local-map at-mode-map)
   (set-syntax-table at-mode-syntax-table)
   (let* ((language-keywords
           (mapcar 'at-make-keyword-face-pair
@@ -786,7 +797,6 @@ c, d]"
             nil)))                      ;syntax-begin
   (make-local-variable 'indent-line-function)
   (setq indent-line-function 'at-indent-line)
-  (use-local-map at-local-map)
   (run-mode-hooks 'at-mode-hook)
   (at-debug (concat mode-name " loaded."))
   )
