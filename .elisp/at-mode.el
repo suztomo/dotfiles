@@ -24,8 +24,8 @@
   (let ((st (make-syntax-table)))
     (modify-syntax-entry ?\" "\"" st)
     (modify-syntax-entry ?\  " " st)
-    (modify-syntax-entry ?^ "(^" st)
-    (modify-syntax-entry ?$ ")$" st)
+                                        ;    (modify-syntax-entry ?^ "(^" st)
+                                        ;    (modify-syntax-entry ?$ ")$" st) *)
     (modify-syntax-entry ?/ ". 124b" st)
     (modify-syntax-entry ?* ". 23" st)
     st)
@@ -81,6 +81,7 @@
                                         ; 
                                         ; abc((()) and "()" => 3
                                         ;
+
 (defun at-find-the-first-open-brace (twochars)
   "Position of the most nearest open brace, return nil if no such brace."
   (save-excursion
@@ -90,13 +91,17 @@
           (ret nil)
           (chr-open (at-char-at twochars 0))
           (chr-close (at-char-at twochars 1))
-                                        ; regexp will be "[\(\)]"
-          (regexp (concat "["
-                          "\\"
-                          (substring twochars 0 1)
-                          "\\"
-                          (substring twochars 1 2)
-                          "]")))
+                                       ; regexp will be "[\(\)]"
+          (regexp 
+           (if (string-equal twochars "[]") "[]\[]"
+                    (concat "["
+                            ""
+                            (substring twochars 0 1)
+                            ""
+                            (substring twochars 1 2)
+                            "]")
+                    )
+           ))
       (while loop-do-flag
         (progn
           (setq p (re-search-backward regexp nil t))
@@ -164,7 +169,7 @@
                                         ; hoge() { () => ?\{
   (save-excursion
     (let ((p (at-point-of-open-bracket-in-prev-line)))
-      (if (eq nil p) nil
+      (if (eq nil p) (progn nil)
         (progn (goto-char p) (char-after))))))
 
 
@@ -177,6 +182,15 @@
   "Point of the close bracket in previous line"
                                         ; ai)(){ => 2
   (at-point-of-unclosed-bracket-in-prev-line ?\) ?\( ?\] ?\[ ?\} ?\{))
+
+(defun hoge ()
+  (interactive)
+  (setq tako (re-search-backward "[]\[(){}]"))
+  tako)
+
+
+
+
 
 (defun at-point-of-unclosed-bracket-in-prev-line (a-op a-cl b-op b-cl c-op c-cl)
   (let ((loop-do-flag t)
@@ -194,7 +208,7 @@
         (forward-line 1)
         (while loop-do-flag
                                         ; ??? [\(\)\{\}\[\]] ???
-          (setq p (re-search-backward "[\(\)\{\}]" bpl t))
+          (setq p (re-search-backward "[]\[(){}]" bpl t))
           (setq c (+ c 1))
           (if (eq nil p)
               (setq loop-do-flag nil)
@@ -297,10 +311,10 @@
       (while loop-do-flag
         (progn
           (if (bobp)
-            (setq loop-do-flag nil)
+              (setq loop-do-flag nil)
             (backward-char))
-;          (message (string (char-after)))
-;          (message (format "%c(%d): %d %d %d" (char-after) (point) c0 c1 c2))
+                                        ;          (message (string (char-after)))
+                                        ;          (message (format "%c(%d): %d %d %d" (char-after) (point) c0 c1 c2))
           (cond
            ((and cond-first
                  (<= c0 0)
@@ -308,12 +322,12 @@
                  (<= c2 0)
                  (funcall cond-p))
             (progn 
-;              (message "satisfied") 
+                                        ;              (message "satisfied") 
               (setq loop-do-flag nil)))
-;
-; b m2() {
-;     c: {}
-;
+                                        ;
+                                        ; b m2() {
+                                        ;     c: {}
+                                        ;
            ((<= (point) limit)
             (progn (setq loop-do-flag nil)))
            ((char-equal (char-after) ?\()
@@ -322,9 +336,9 @@
             (progn (setq c1 (if (> c1 0) (- c1 1) 0))))
            ((char-equal (char-after) ?\[)
             (progn (setq c2 (if (> c2 0) (- c2 1) 0))))
-; hoge
-;   );
-; fuga
+                                        ; hoge
+                                        ;   );
+                                        ; fuga
            ((char-equal (char-after) ?\))
             (progn (setq c0 (+ c0 1))))
            ((char-equal (char-after) ?\})
@@ -336,7 +350,7 @@
                  (<= c2 0)
                  (funcall cond-p))
             (progn
-;              (message "satisfied")
+                                        ;              (message "satisfied")
               (setq loop-do-flag nil)))
            ))))))
 
@@ -413,7 +427,8 @@
          (t (let ((first-open-bracket (at-open-bracket-in-prev-line)))
               (cond
                ((eq nil first-open-bracket)
-                (progn (at-indent-as-prev-unclosed-line-head)))
+                (progn (at-debug "no open bracket in previous line")
+                       (at-indent-as-prev-unclosed-line-head)))
                ((char-equal ?\( first-open-bracket) (at-indent-as-prev-paren))
                ((char-equal ?\{ first-open-bracket) (at-indent-prev-unclosed-line-head-plus1))
                ((char-equal ?\[ first-open-bracket) (at-indent-as-prev-bracket))
@@ -627,7 +642,9 @@ def t := [a, b,
              msg ret)
         (progn
           (setq msg (format "  test %d: " count))
+                                        ;          (condition-case ex
           (setq error (at-mode-indent-test-p before after comm))
+                                        ;            (setq error (format "Caught exception: [%s]" ex)))
           (if (eq nil error) (setq msg (concat msg "passed."))
             (progn
               (setq msg (concat msg "FAILED.\n--- Before:" before "\n--- After:"
@@ -661,46 +678,57 @@ def t := [a, b,
 
 
 (setq at-mode-sandbox-test-cases
-'((
-"abcd(
+      '((
+         "abcd(
   efgc()
 hijk"
          (lambda () (progn (beginning-of-line) (at-search-backward-unclosed-line-head)))
          (lambda () (char-equal ?e (char-after)))
          ) (
-"abcd(xyz(
+         "abcd(xyz(
   efgc)
 hijk"
-            (lambda () (progn (beginning-of-line) (at-search-backward-unclosed-line-head)))
-            (lambda () (char-equal ?a (char-after)))
-            ) (
-"op1({|arg2|
+         (lambda () (progn (beginning-of-line) (at-search-backward-unclosed-line-head)))
+         (lambda () (char-equal ?a (char-after)))
+         ) (
+         "op1({|arg2|
       abc(tako
        );
     someop3();});"
-(lambda () (progn (beginning-of-line) (at-search-backward-unclosed-line-head)))
-(lambda () (char-equal ?a (char-after)))
-) (
-"
+         (lambda () (progn (beginning-of-line) (at-search-backward-unclosed-line-head)))
+         (lambda () (char-equal ?a (char-after)))
+         ) (
+         "
     a m1() {}
     b m2() {
         c: {};
         }"
-(lambda () (progn
-             (beginning-of-line)
-             (at-search-backward-unclosed-cond
-              '(lambda () (char-equal ?\{ (char-after))) nil t)))
-(lambda () (progn  (= 27 (point))))
-) (
-"if: {
+         (lambda () (progn
+                      (beginning-of-line)
+                      (at-search-backward-unclosed-cond
+                       '(lambda () (char-equal ?\{ (char-after))) nil t)))
+         (lambda () (progn  (= 27 (point))))
+         ) (
+         "if: {
     hoge
 } else {
         tako"
-(lambda () (progn
-             (beginning-of-line)
-             (at-search-backward-unclosed-line-head)))
-(lambda () (progn (= 1 (point))))
-)))
+         (lambda () (progn
+                      (beginning-of-line)
+                      (at-search-backward-unclosed-line-head)))
+         (lambda () (progn (= 1 (point))))
+         ) (
+         "def t := [a, b,
+c, d]"
+         (lambda () ())
+         (lambda () (progn
+                      (at-debug (number-to-string (point)))
+                      (let ((chr (at-open-bracket-in-prev-line)))
+                        (and chr (progn
+                                   (at-debug "t is not null")
+                                   (char-equal ?\[ chr))))))
+         )))
+
 
 
 (defun at-mode-sandbox-test-run-iter (case-list count)
