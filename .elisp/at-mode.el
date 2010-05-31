@@ -57,10 +57,10 @@
 (defun at-make-builtin-face-pair (name)
   (cons (concat name ":") font-lock-builtin-face))
 
-(setq at-mode-debug nil)
+(setq at-mode-debug-flag nil)
 
 (defun at-debug (msg)
-  (if at-mode-debug
+  (if at-mode-debug-flag
       (message msg)))
 
 
@@ -365,10 +365,13 @@
               (setq loop-do-flag nil)))
            ))))))
 
+(defun at-empty-line-p ()
+  (and (eolp) (bolp)))
 
 (defun at-search-backward-unclosed-line-head ()
   "Moves the line head that is not closed in brackets"
-  (at-search-backward-unclosed-cond 'at-line-head-p))
+  (at-search-backward-unclosed-cond
+   '(lambda () (and (at-line-head-p) (not (at-empty-line-p))))))
 
 
 (defun at-indent-as-prev-unclosed-line-head ()
@@ -736,10 +739,32 @@ c, d]"
                       (at-debug (number-to-string (point)))
                       (let ((chr (at-open-bracket-in-prev-line)))
                         (and chr (progn
-                                   (at-debug "t is not null")
                                    (char-equal ?\[ chr))))))
-         )))
+         ) (
+"def func() {
+    def tako {
+    }
 
+kome"
+         (lambda () (progn
+                      (end-of-buffer) (at-indent-line)))
+         (lambda () (progn
+                      (= (current-indentation) 4)
+                      )
+         ))  (
+"f {
+    d t{
+    }
+
+kome"
+         (lambda () (progn
+                      (end-of-buffer)
+                      (beginning-of-line)
+                      (at-search-backward-unclosed-line-head)))
+         (lambda () (progn
+                      (= (point) 9)
+                      )
+         ))))
 
 
 (defun at-mode-sandbox-test-run-iter (case-list count)
