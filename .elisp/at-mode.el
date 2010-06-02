@@ -252,8 +252,19 @@
     (char-after)))
 
 (defun at-in-comment-p ()
-  nil)
+  (let (a b (c (point)))
+    (save-excursion
+      (setq a (re-search-backward "/\\*" nil t))
+      (goto-char c)
+      (setq b (re-search-backward "*/" nil t))
+      (and a (if b (> a b)
+               t)))))
 
+(defun hoge ()
+  (interactive)
+  (if (at-in-comment-p)
+      (message "in comment")
+    (message "out of comment")))
 
 (defun at-indent-as-prev-bracket ()
   "Indents as the same previous line"
@@ -645,7 +656,13 @@ def t := [a, b,
           c, d];
 ") ))
 
-
+(
+(lambda () (progn
+             (goto-char 16)))
+(lambda () (progn
+             (not (at-in-comment-p))
+             )
+))
 
 (defun at-mode-test-indent-run-iter (case-list count)
   (if case-list
@@ -764,7 +781,46 @@ kome"
          (lambda () (progn
                       (= (point) 9)
                       )
-         ))))
+         ))
+(
+"a
+iu
+/*
+comment
+*/
+hoge"
+         (lambda () (progn
+                      (goto-char 10)))
+         (lambda () (progn
+                      (at-in-comment-p)
+                      )
+         ))
+(
+""
+(lambda () ())
+(lambda () (progn
+             (not (at-in-comment-p))
+             )
+))
+(
+"a
+iu
+/*
+
+*/
+hogehoge
+/*
+comment
+*/
+hoge"
+(lambda () (progn
+             (goto-char 16)))
+(lambda () (progn
+             (not (at-in-comment-p))
+             )
+))
+
+))
 
 
 (defun at-mode-sandbox-test-run-iter (case-list count)
