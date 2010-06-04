@@ -656,13 +656,6 @@ def t := [a, b,
           c, d];
 ") ))
 
-(
-(lambda () (progn
-             (goto-char 16)))
-(lambda () (progn
-             (not (at-in-comment-p))
-             )
-))
 
 (defun at-mode-test-indent-run-iter (case-list count)
   (if case-list
