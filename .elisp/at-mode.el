@@ -37,8 +37,12 @@
     (modify-syntax-entry ?\  " " st)
                                         ;    (modify-syntax-entry ?^ "(^" st)
                                         ;    (modify-syntax-entry ?$ ")$" st) *)
+;    (modify-syntax-entry ?/ ". 124b" st)
+    ;    (modify-syntax-entry ?* ". 23" st)
     (modify-syntax-entry ?/ ". 124b" st)
     (modify-syntax-entry ?* ". 23" st)
+    (modify-syntax-entry ?\n "> b" st)
+    (modify-syntax-entry ?\^m "> b" st) ; Give CR the same syntax as newline, for selective-display
     st)
   "Syntax table used while in `at-mode'.")
 
