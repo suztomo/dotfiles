@@ -53,7 +53,7 @@
 
 (defvar at-language-builtins
   (list "if" "raise" "then" "else" "when" "becomes" "try" "catch" "raise"
-        "foreach" "in" "whenever" "is" "taggedAs"))
+        "foreach" "in" "whenever" "is" "taggedAs" "export" "as" "object"))
 
 (defun at-make-keyword-face-pair (name)
   (cons name font-lock-keyword-face))
