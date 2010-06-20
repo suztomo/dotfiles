@@ -333,3 +333,8 @@
                (message "lisp-mode-hook")
                (local-set-key "\C-cb" 'eval-buffer)
                (local-set-key "\C-ct" 'at-mode-test-indent-run))))
+
+(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
+(add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+(add-hook 'haskell-mode-hook 'font-lock-mode)
+(add-hook 'haskell-mode-hook 'imenu-add-menubar-index)
