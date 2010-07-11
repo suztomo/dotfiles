@@ -1,8 +1,14 @@
-                                        ;-*-Lisp-*-
+;; -*-Lisp-*-
 ;; AmbientTalk-mode Version 0
 ;; http://beta-reduction.blogspot.com/2010/01/blog-post.html
 ;; For major mode coding conventions, see
 ;;   http://www.gnu.org/s/emacs/manual/html_node/elisp/Major-Mode-Conventions.html#Major-Mode-Conventions
+
+;; Bugs
+;;      code
+;; //  somecode
+;;  somecode  //<TAB> never alignes indentation
+
 (eval-when-compile (require 'cl))
 
 
@@ -35,10 +41,10 @@
   (let ((st (make-syntax-table)))
     (modify-syntax-entry ?\" "\"" st)
     (modify-syntax-entry ?\  " " st)
-                                        ;    (modify-syntax-entry ?^ "(^" st)
-                                        ;    (modify-syntax-entry ?$ ")$" st) *)
-;    (modify-syntax-entry ?/ ". 124b" st)
-    ;    (modify-syntax-entry ?* ". 23" st)
+    ;;    (modify-syntax-entry ?^ "(^" st)
+    ;;    (modify-syntax-entry ?$ ")$" st) *)
+    ;;    (modify-syntax-entry ?/ ". 124b" st)
+    ;;    (modify-syntax-entry ?* ". 23" st)
     (modify-syntax-entry ?/ ". 124b" st)
     (modify-syntax-entry ?* ". 23" st)
     (modify-syntax-entry ?\n "> b" st)
@@ -55,11 +61,70 @@
   (list "if" "raise" "then" "else" "when" "becomes" "try" "catch" "raise"
         "foreach" "in" "whenever" "is" "taggedAs" "export" "as" "object"))
 
+;; http://www.gnu.org/s/emacs/manual/html_node/emacs/Font-Lock.html#Font-Lock
 (defun at-make-keyword-face-pair (name)
   (cons name font-lock-keyword-face))
 
 (defun at-make-builtin-face-pair (name)
   (cons (concat name ":") font-lock-builtin-face))
+
+(defun at-font-lock-add-function-name-by-regexp (regexp)
+  (font-lock-add-keywords nil
+                 (list `(,regexp 1 font-lock-function-name-face nil))))
+
+
+;  (font-lock-add-keywords nil
+;                          '((regexp 1 font-lock-keyword-face t)))
+;  (message "hello"))
+
+(defun at-font-lock-add-keywords-by-regexps (lst)
+  (if lst
+      (progn (at-font-lock-add-keyword-by-regexp (car lst))
+             (at-font-lock-add-keywords-by-regexps (cdr lst)))))
+
+
+;; http://www.gnu.org/s/emacs/manual/html_node/elisp/Levels-of-Font-Lock.html#Levels-of-Font-Lock
+(defun at-setup-font-lock-const () 
+  (let* ((language-keywords
+          (mapcar 'at-make-keyword-face-pair
+                  at-language-keywords))
+         (language-builtins
+          (mapcar 'at-make-builtin-face-pair
+                  at-language-builtins))
+         (at-mode-font-lock-keywords
+          (append language-keywords language-builtins)))
+
+    (setq font-lock-defaults
+          `(,language-keywords ; keywords
+            nil                         ; keywords-only
+            t                           ; case-fold
+            nil                         ; syntax-alist
+            nil)))                      ;syntax-begin
+)
+
+
+;; Syntax highlights
+;; todo:
+;;    def [future, resolver] := futureMaker(receiver);
+
+(defun at-setup-font-lock ()
+  (at-setup-font-lock-const)
+  (font-lock-add-keywords nil
+                 `(("deftype\s+\\<\\([a-z]+\\)" 1 font-lock-constant-face nil)))
+  (font-lock-add-keywords nil
+                 `(("def\s+\\<\\([a-z]+\\)\s+:=" 1 font-lock-variable-name-face nil)))
+  (font-lock-add-keywords nil
+                 `(("def\s+\\<\\([a-z]+\\)\s*(" 1 font-lock-function-name-face nil)))
+; ??? doesn't work...
+;  (font-lock-add-keywords nil
+;                 `(("\\<\\(/[\.|a-z|A-Z]\\)" 1 font-lock-function-name-face nil)))
+;  (font-lock-add-keywords nil
+;                 `((":\s*\\<\\([a-z]+\\)" 1 font-lock-variable-name-face nil)))
+  (at-font-lock-add-function-name-by-regexp "\\<\\([a-z]+\\):")
+)
+
+
+
 
 (setq at-mode-debug-flag nil)
 
@@ -197,11 +262,6 @@
   "Point of the close bracket in previous line"
                                         ; ai)(){ => 2
   (at-point-of-unclosed-bracket-in-prev-line ?\) ?\( ?\] ?\[ ?\} ?\{))
-
-(defun hoge ()
-  (interactive)
-  (setq tako (re-search-backward "[]\[(){}]"))
-  tako)
 
 
 
@@ -858,21 +918,8 @@ hoge"
         mode-name "AmbientTalk")        ; used in minibuffer
   (use-local-map at-mode-map)
   (set-syntax-table at-mode-syntax-table)
-  (let* ((language-keywords
-          (mapcar 'at-make-keyword-face-pair
-                  at-language-keywords))
-         (language-builtins
-          (mapcar 'at-make-builtin-face-pair
-                  at-language-builtins))
-         (at-mode-font-lock-keywords
-          (append language-keywords language-builtins)))
+  (at-setup-font-lock)
 
-    (setq font-lock-defaults
-          `(,at-mode-font-lock-keywords ; keywords
-            nil                         ; keywords-only
-            t                           ; case-fold
-            nil                         ; syntax-alist
-            nil)))                      ;syntax-begin
   (make-local-variable 'indent-line-function)
   (setq indent-line-function 'at-indent-line)
   (run-mode-hooks 'at-mode-hook)
@@ -880,4 +927,5 @@ hoge"
   )
 
 (provide 'at-mode)
+
 

@@ -66,8 +66,8 @@ _update_rprompt () {
 
 precmd()
 {
-  _set_env_git_current_branch
-  _update_rprompt
+#  _set_env_git_current_branch
+#  _update_rprompt
 }
 
 
