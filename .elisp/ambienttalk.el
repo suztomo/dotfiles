@@ -1,17 +1,37 @@
 ;; -*-Lisp-*-
-;; AmbientTalk-mode Version 0
-;; http://beta-reduction.blogspot.com/2010/01/blog-post.html
+;; AmbientTalk-mode Version 0.1
+;; Copyright (c) 2010 Tomohiro Suzuki
+;;
+;; Permission is hereby granted, free of charge, to any person
+;; obtaining a copy of this software and associated documentation
+;; files (the "Software"), to deal in the Software without
+;; restriction, including without limitation the rights to use,
+;; copy, modify, merge, publish, distribute, sublicense, and/or
+;; sell copies of the Software, and to permit persons to whom the
+;; Software is furnished to do so, subject to the following
+;; conditions:
+;;
+;; The above copyright notice and this permission notice shall be
+;; included in all copies or substantial portions of the Software.
+;;
+;; THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+;; EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+;; OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;; NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+;; HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+;; WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+;; FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+;; OTHER DEALINGS IN THE SOFTWARE.
+
+
+
+
 ;; For major mode coding conventions, see
 ;;   http://www.gnu.org/s/emacs/manual/html_node/elisp/Major-Mode-Conventions.html#Major-Mode-Conventions
-
-;; Bugs
-;;      code
-;; //  somecode
-;;  somecode  //<TAB> never alignes indentation
-
 (eval-when-compile (require 'cl))
 
 
+;; TODO: switch spaces to tab?
 (defcustom at-indent-level 4
   "*Indentation of AmbientTalk statements with respect to containing block."
   :type 'integer
@@ -21,7 +41,6 @@
 (defvar at-mode-map (make-keymap))
 
 (define-key at-mode-map "}" 'at-electric-brace)
-
 
 
 (defun at-electric-brace ()
@@ -55,13 +74,12 @@
 (defvar at-language-keywords
   (list "deftype" "def " "import" "super"))
 
-;; http://www.delorie.com/gnu/docs/elisp-manual-21/elisp_367.html
-
+;; e.f. http://www.delorie.com/gnu/docs/elisp-manual-21/elisp_367.html
 (defvar at-language-builtins
   (list "if" "raise" "then" "else" "when" "becomes" "try" "catch" "raise"
         "foreach" "in" "whenever" "is" "taggedAs" "export" "as" "object"))
 
-;; http://www.gnu.org/s/emacs/manual/html_node/emacs/Font-Lock.html#Font-Lock
+;; c.f. http://www.gnu.org/s/emacs/manual/html_node/emacs/Font-Lock.html#Font-Lock
 (defun at-make-keyword-face-pair (name)
   (cons name font-lock-keyword-face))
 
@@ -73,16 +91,13 @@
                  (list `(,regexp 1 font-lock-function-name-face nil))))
 
 
-;  (font-lock-add-keywords nil
-;                          '((regexp 1 font-lock-keyword-face t)))
-;  (message "hello"))
-
 (defun at-font-lock-add-keywords-by-regexps (lst)
   (if lst
       (progn (at-font-lock-add-keyword-by-regexp (car lst))
              (at-font-lock-add-keywords-by-regexps (cdr lst)))))
 
 
+;; Level?
 ;; http://www.gnu.org/s/emacs/manual/html_node/elisp/Levels-of-Font-Lock.html#Levels-of-Font-Lock
 (defun at-setup-font-lock-const () 
   (let* ((language-keywords
@@ -133,7 +148,7 @@
       (message msg)))
 
 
-;; Indent function
+;; Indent functions
 ;; Goal:
 ;; -- nested def braces
 ;; 
@@ -151,8 +166,11 @@
 ;;   if the cursor is inside braces
 ;;     indentation will be bigger by one-level from the previous line's one
 
-(cons ?\( ?\})
-(cons ?a ?\[)
+;; Known Bugs
+;;      code
+;; //  somecode
+;;  somecode  //<TAB> never alignes indentation
+
 
 (defun at-char-at (str pos)
   "Returns character at the position."
@@ -422,9 +440,6 @@
             (progn (setq c1 (if (> c1 0) (- c1 1) 0))))
            ((char-equal (char-after) ?\[)
             (progn (setq c2 (if (> c2 0) (- c2 1) 0))))
-                                        ; hoge
-                                        ;   );
-                                        ; fuga
            ((char-equal (char-after) ?\))
             (progn (setq c0 (+ c0 1))))
            ((char-equal (char-after) ?\})
@@ -436,7 +451,7 @@
                  (<= c2 0)
                  (funcall cond-p))
             (progn
-                                        ;              (message "satisfied")
+              ;;              (message "satisfied")
               (setq loop-do-flag nil)))
            ))))))
 
@@ -466,9 +481,9 @@
       (setq a (current-indentation)))
     (at-indent-to (+ at-indent-level a))))
 
-                                        ;
-                                        ; def func (object: { <-
-                                        ;    takotao
+;;
+;; def func (object: { <-
+;;    takotao
 (defun at-indent-as-prev-unclosed-open-brace-line ()
   "Indents as prev unclosed open brace"
   (at-debug "at-indent-as-prev-unclosed-open-brace-line")
@@ -524,15 +539,6 @@
                (t (at-debug "invalid char of first-open-bracket"))))))))
     (back-to-indentation)))
 
-
-;;
-;; Test
-;;
-(defun at-mode-test-indentation ()
-  (let ((buffer (get-buffer-create "*’¥«’¥ì’¥ó’¥È’¥Ð’¥Ã’¥Õ’¥¡’¥Æ’¥¹’¥È*")))
-    (set-buffer buffer)
-    (insert "’¤Æ’¤¹’¤È’¤Æ’¤¹’¤È"))
-  (display-buffer (current-buffer)))
 
 ;; (defun at-mode-indent-test-p (before after &optional comm)
 ;;   "Runs indentation, returns nil if no error or indented text if error"
@@ -907,15 +913,12 @@ hoge"
   (at-mode-test-indent-run)
   (at-mode-sandbox-test-run))
 
-;(setq at-local-map (make-keymap))
-                                        ;(define-key at-local-map "\C-ci" 'at-indent-line)
-
 (defun at-mode ()
   "AmbientTalk-mode"
   (interactive)
   (kill-all-local-variables)
   (setf major-mode 'at-mode
-        mode-name "AmbientTalk")        ; used in minibuffer
+        mode-name "AmbientTalk")   ; used in minibuffer
   (use-local-map at-mode-map)
   (set-syntax-table at-mode-syntax-table)
   (at-setup-font-lock)
@@ -927,5 +930,4 @@ hoge"
   )
 
 (provide 'at-mode)
-
 
