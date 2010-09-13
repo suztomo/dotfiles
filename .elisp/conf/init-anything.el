@@ -1,4 +1,4 @@
-(setq woman-cache-filename (expand-file-name "~/woman_cache"))
+;(setq woman-cache-filename (expand-file-name "~/woman_cache"))
 ;(setq anything-c-adaptive-history-file
 ;      (expand-file-name "~/dotfiles/.elisp/anything/anything-c-adaptive-history"))
 (require 'anything-config)
@@ -41,6 +41,7 @@
             anything-c-source-bookmarks
             anything-c-source-cscope-global-definition
             anything-c-source-cscope-calling-this-function
+;            anything-c-source-recentf
 ;            anything-c-source-file-name-history
 ;            anything-c-source-file-cache
 ;            anything-c-source-man-pages

@@ -5,6 +5,7 @@
 (add-to-list 'load-path "~/dotfiles/.elisp")
 (add-to-list 'load-path "~/dotfiles/.elisp/conf")
 (add-to-list 'load-path "~/dotfiles/.elisp/tuareg")
+(add-to-list 'load-path "~/dotfiles/.elisp/auto-install")
 
 ;; C-h to backspace
 ;;(global-set-key "\C-h" 'delete-backward-char)
@@ -177,7 +178,12 @@
 ;(load "init-autosave-enhanced")
 (load "init-autosave")
 ;(load "init-auto-complete")
-(load "init-anything")
+;(load "init-anything")
+
+(require 'anything-startup)
+(global-set-key [?\C-;] 'anything-for-files)
+
+
 (load "init-revive")
 ;(load "init-html")
 (load "init-gauche")
@@ -191,7 +197,6 @@
 ;(load "init-yasnippet")
 (load "init-c")
 (load "ambienttalk")
-
 (setq auto-mode-alist (cons '("??.at" . at-mode) auto-mode-alist))
 
 
@@ -292,6 +297,12 @@
     )
 )
 
+;; auto-install
+;; http://d.hatena.ne.jp/rubikitch/20091221/autoinstall
+(require 'auto-install)
+(setq auto-install-directory "~/dotfiles/.elisp/auto-install/")
+(auto-install-update-emacswiki-package-name t)
+(auto-install-compatibility-setup)
 
 
 ; Window resizer
@@ -338,3 +349,5 @@
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
 (add-hook 'haskell-mode-hook 'font-lock-mode)
 (add-hook 'haskell-mode-hook 'imenu-add-menubar-index)
+
+

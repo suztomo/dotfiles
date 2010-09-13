@@ -24,6 +24,12 @@
 ;; OTHER DEALINGS IN THE SOFTWARE.
 
 
+;; Usage
+;; You can download the ambienttalk.el, put it in "loadpath" of your Emacs,
+;; and add the following two lines to your .emacs file:
+;;  (load "ambienttalk")
+;;  (setq auto-mode-alist (cons '("??.at" . at-mode) auto-mode-alist))
+
 
 
 ;; For major mode coding conventions, see
@@ -169,7 +175,15 @@
 ;; Known Bugs
 ;;      code
 ;; //  somecode
-;;  somecode  //<TAB> never alignes indentation
+;;  somecode  //<TAB> never aligns indentation
+;;
+;; tako {
+;; // hoge :)
+;; }fuga //<TAB> never aligns indentation
+;;
+;;
+;;   def up() { count := count + 1; }
+;; moves the cursor to strange position
 
 
 (defun at-char-at (str pos)
