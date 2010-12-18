@@ -351,3 +351,24 @@
 (add-hook 'haskell-mode-hook 'imenu-add-menubar-index)
 
 
+;; rst
+(setq frame-background-mode 'dark)
+;;; rst.el --- Mode for viewing and editing reStructuredText
+;; http://docutils.sourceforge.net/
+(load "rst")
+(setq auto-mode-alist
+      (append '(
+                ("\\.txt$" . rst-mode)
+                ("\\.rst$" . rst-mode)
+                ) auto-mode-alist))
+(add-hook 'rst-mode-hook
+              (lambda ()
+                (setq rst-slides-program "open -a Firefox")
+                ))
+(setq erlang-dir  "/opt/local/lib/erlang/lib/tools-2.6.6/emacs/")
+(setq load-path (cons "/opt/local/lib/erlang/lib/tools-2.6.6/emacs"
+                      load-path))
+(setq erlang-root-dir "/opt/local/")
+(setq exec-path (cons "/opt/local/bin" exec-path))
+(require 'erlang-start)
+

@@ -1,5 +1,6 @@
 ;; -*-Lisp-*-
 ;; AmbientTalk-mode Version 0.1
+;;
 ;; Copyright (c) 2010 Tomohiro Suzuki
 ;;
 ;; Permission is hereby granted, free of charge, to any person
@@ -184,16 +185,19 @@
 ;;
 ;;   def up() { count := count + 1; }
 ;; moves the cursor to strange position
-
+;;
+;;
+;;  def k () {
+;;  <TAB> doesn not align; it actually puts spaces but goes to the first column
+;;
 
 (defun at-char-at (str pos)
   "Returns character at the position."
   (string-to-char (substring str pos (+ 1 pos))))
 
-                                        ; 
-                                        ; abc((()) and "()" => 3
-                                        ;
-
+;; 
+;; abc((()) and "()" => 3
+;;
 (defun at-find-the-first-open-brace (twochars)
   "Position of the most nearest open brace, return nil if no such brace."
   (save-excursion
@@ -220,7 +224,7 @@
           (cond
            ((eq nil p)               ; reaches the beginning of buffer
             (progn (setq ret nil) (setq loop-do-flag nil)))
-           ((char-equal chr-open (char-after)) 
+           ((char-equal chr-open (char-after))
             (if (= c 0)                 ; open paren
                 (progn                  ; success
                   (setq loop-do-flag nil)
@@ -231,6 +235,7 @@
       ret)))
 
 (defun at-indent-to (num)
+  (message "indenting to %d" num)
   (let (start end)
     (progn
       (save-excursion
@@ -242,12 +247,11 @@
       (delete-region start end)))
   (indent-to num))
 
-                                        ; somebraces( object:{
-                                        ;     def hoge()
-                                        ;
+;; somebraces( object:{
+;;    def hoge()
+;;
 (defun at-indent-close-brace-line ()
   "Indents add plus 1"
-  (at-debug "indent-close-brace-line")
   (let ((p (at-find-the-first-open-brace "{}"))
         ci)
     (if (eq nil p)
@@ -258,11 +262,10 @@
         (at-indent-to ci)
         t))))
 
-                                        ; somefunc(a
-                                        ;          b);
+;; somefunc(a
+;;          b);
 (defun at-indent-close-paren-line ()
   "Finds the last open braces, and indent to it"
-  (at-debug "indent-close-brace-line")
   (let ((p (at-find-the-first-open-brace "()"))
         lbp)
     (if (eq nil p)
@@ -275,28 +278,25 @@
 
 
 
-
 (defun at-open-bracket-in-prev-line ()
   "Bracket of previous line"
-                                        ; hoge() { () => ?\{
+  ;; hoge() { () => ?\{
   (save-excursion
     (let ((p (at-point-of-open-bracket-in-prev-line)))
-      (if (eq nil p) (progn nil)
+      (if (eq nil p) nil
         (progn (goto-char p) (char-after))))))
 
 
 (defun at-point-of-open-bracket-in-prev-line ()
   "Point of the open bracket in previous line"
-                                        ; a{}{() => 3
+  ;; a{}{() => 3
+  ;; nil if the line has no previous line
   (at-point-of-unclosed-bracket-in-prev-line ?\( ?\) ?\[ ?\] ?\{ ?\}))
 
 (defun at-point-of-close-bracket-in-prev-line ()
   "Point of the close bracket in previous line"
-                                        ; ai)(){ => 2
+  ;; ai)(){ => 2
   (at-point-of-unclosed-bracket-in-prev-line ?\) ?\( ?\] ?\[ ?\} ?\{))
-
-
-
 
 
 (defun at-point-of-unclosed-bracket-in-prev-line (a-op a-cl b-op b-cl c-op c-cl)
@@ -304,9 +304,9 @@
         (bpl 0)
         (ret nil)
         (c 0)
-        (c0 0)                          ; for (
-        (c1 0)                          ; for [
-        (c2 0)                          ; for {
+        (c0 0)  ;; for (
+        (c1 0)  ;; for [
+        (c2 0)  ;; for {
         p)
     (progn
       (save-excursion
@@ -314,7 +314,7 @@
         (setq bpl (point))
         (forward-line 1)
         (while loop-do-flag
-                                        ; ??? [\(\)\{\}\[\]] ???
+          ;; ??? [\(\)\{\}\[\]] ???
           (setq p (re-search-backward "[]\[(){}]" bpl t))
           (setq c (+ c 1))
           (if (eq nil p)
@@ -322,7 +322,6 @@
             (progn
               (cond
                ((> c 10) (progn (at-debug "baka") (setq loop-do-flag nil)))
-
                ((char-equal a-op (char-after))
                 (if (= 0 c0) (progn (setq ret (point)) (setq loop-do-flag nil))
                   (setq c0 (- c0 1))))
@@ -484,11 +483,12 @@
     (save-excursion
       (at-search-backward-unclosed-line-head)
       (setq a (current-indentation)))
+
     (at-indent-to a)))
 
 (defun at-indent-prev-unclosed-line-head-plus1 ()
   "Indents plus 1 level by the unclosed line head"
-  (at-debug "at-indent-as-prev-unclosed-line-head")
+  (at-debug "at-indent-as-prev-unclosed-line-head-plus1")
   (let (a)
     (save-excursion
       (at-search-backward-unclosed-line-head)
@@ -534,24 +534,32 @@
   (if (at-in-comment-p) nil
     (save-excursion
       (beginning-of-line)
-      (let ((fc (at-first-char-in-line)))
-        (cond
-         ((and (numberp fc) (or (char-equal ?\} fc) (char-equal ?\) fc)))
+      (if (bobp)
           (progn
-            (at-debug "first char in line is bracket")
-            (cond
-             ((char-equal ?\} fc) (at-indent-as-prev-unclosed-open-brace-line))
-             ((char-equal ?\) fc) (at-indent-close-paren-line)))))
-         (t (let ((first-open-bracket (at-open-bracket-in-prev-line)))
+            (message "first line"))
+        (let ((fc (at-first-char-in-line)))
+          (cond
+           ((and (numberp fc) (or (char-equal ?\} fc) (char-equal ?\) fc)))
+            (progn
+              (at-debug "first char in line is bracket")
               (cond
-               ((eq nil first-open-bracket)
-                (progn (at-debug "no open bracket in previous line")
-                       (at-indent-as-prev-unclosed-line-head)))
-               ((char-equal ?\( first-open-bracket) (at-indent-as-prev-paren))
-               ((char-equal ?\{ first-open-bracket) (at-indent-prev-unclosed-line-head-plus1))
-               ((char-equal ?\[ first-open-bracket) (at-indent-as-prev-bracket))
-               (t (at-debug "invalid char of first-open-bracket"))))))))
-    (back-to-indentation)))
+               ((char-equal ?\} fc) (at-indent-as-prev-unclosed-open-brace-line))
+               ((char-equal ?\) fc) (at-indent-close-paren-line)))))
+           (t (let ((first-open-bracket (at-open-bracket-in-prev-line)))
+                ;;              (message (string first-open-bracket))
+                (cond
+                 ((eq nil first-open-bracket)
+                  (progn (at-debug "no open bracket in previous line")
+                         (at-indent-as-prev-unclosed-line-head)))
+                 ((char-equal ?\( first-open-bracket) (at-indent-as-prev-paren))
+                 ((char-equal ?\{ first-open-bracket) (at-indent-prev-unclosed-line-head-plus1))
+                 ((char-equal ?\[ first-open-bracket) (at-indent-as-prev-bracket))
+                 (t (at-debug "invalid char of first-open-bracket"))))))))
+
+      )
+      (end-of-line)
+      (back-to-indentation)))
+
 
 
 ;; (defun at-mode-indent-test-p (before after &optional comm)
@@ -896,7 +904,14 @@ hoge"
              (not (at-in-comment-p))
              )
 ))
-
+(
+"def f() {"
+(lambda () (progn
+             (at-indent-line)))
+(lambda () (progn
+             (message "point: %d" (point))
+             (= (point) 1))
+  ))
 ))
 
 
@@ -928,7 +943,15 @@ hoge"
   (at-mode-sandbox-test-run))
 
 (defun at-mode ()
-  "AmbientTalk-mode"
+  "Major mode for editing AmbientTalk source files in Emacs.
+
+This module provides syntax highlight and indentation.
+There is no other functionaly
+
+useful commands:
+    TAB     - Indent the line.
+
+"
   (interactive)
   (kill-all-local-variables)
   (setf major-mode 'at-mode
